@@ -145,13 +145,14 @@ try {
     const hostURL = core.getInput("sonar-host-url");
 
     const output = `### SonarQube Quality Gate Result 
-- Result: ${getStatusEmoji(result.projectStatus.status)}
-- Triggered by @${github.context.actor} on \`${github.context.event_name}\`
+- **Result**: ${getStatusEmoji(result.projectStatus.status)}
+- Triggered by @${github.context.actor} on \`${github.context.eventName}\`
 
 | Metric | Status | Value | Error Threshold |
 |:------:|:------:|:-----:|:---------------:|
 ${resultTable}
-[View on SonarQube](${hostURL}dashboard?id=${projectKey})`;
+
+[View on SonarQube](${hostURL}/dashboard?id=${projectKey})`;
 
     const token = core.getInput("github-token");
     const octokit = github.getOctokit(token);
