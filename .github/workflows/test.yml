@@ -1,0 +1,15 @@
+name: Move a major tag to the latest release
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: phwt/sonarqube-quality-gate-action@v0
+        with:
+          sonar-project-key: "test-project"
+          sonar-host-url: "example.com"
+          sonar-token: "no-token"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
