@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 
-const getStatusEmoji = (status) => {
+const getStatusEmoji = (status: string) => {
   switch (status) {
     case "OK":
       return ":white_check_mark: OK";
@@ -14,7 +14,7 @@ const getStatusEmoji = (status) => {
   }
 };
 
-const getComparatorSymbol = (comparator) => {
+const getComparatorSymbol = (comparator: string) => {
   switch (comparator) {
     case "GT":
       return ">";
@@ -25,8 +25,8 @@ const getComparatorSymbol = (comparator) => {
   }
 };
 
-const formatMetricKey = (string) => {
-  const replacedString = string.replace(/_/g, " ");
+const formatMetricKey = (metricKey: string) => {
+  const replacedString = metricKey.replace(/_/g, " ");
   return replacedString.charAt(0).toUpperCase() + replacedString.slice(1);
 };
 

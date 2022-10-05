@@ -3,7 +3,6 @@
     "target": "ES5",
     "module": "CommonJS",
     "strict": true,
-    "noImplicitAny": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
