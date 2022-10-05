@@ -1,34 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-
-const getStatusEmoji = (status: string) => {
-  switch (status) {
-    case "OK":
-      return ":white_check_mark: OK";
-    case "ERROR":
-      return ":exclamation:Error";
-    case "WARN":
-      return ":warning: Warning";
-    default: // "NONE" and others
-      return ":grey_question:";
-  }
-};
-
-const getComparatorSymbol = (comparator: string) => {
-  switch (comparator) {
-    case "GT":
-      return ">";
-    case "LT":
-      return "<";
-    default:
-      return "";
-  }
-};
-
-const formatMetricKey = (metricKey: string) => {
-  const replacedString = metricKey.replace(/_/g, " ");
-  return replacedString.charAt(0).toUpperCase() + replacedString.slice(1);
-};
+import { formatMetricKey, getStatusEmoji, getComparatorSymbol } from "./utils";
 
 try {
   const result = {
