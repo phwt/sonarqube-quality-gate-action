@@ -31,7 +31,94 @@ const formatMetricKey = (string) => {
 };
 
 try {
-  const result = {}; // TODO: Fetch result from API
+  const result = {
+    projectStatus: {
+      status: "ERROR",
+      conditions: [
+        {
+          status: "ERROR",
+          metricKey: "reliability_rating",
+          comparator: "GT",
+          errorThreshold: "1",
+          actualValue: "4",
+        },
+        {
+          status: "ERROR",
+          metricKey: "security_rating",
+          comparator: "GT",
+          errorThreshold: "1",
+          actualValue: "2",
+        },
+        {
+          status: "OK",
+          metricKey: "sqale_rating",
+          comparator: "GT",
+          errorThreshold: "1",
+          actualValue: "1",
+        },
+        {
+          status: "ERROR",
+          metricKey: "blocker_violations",
+          comparator: "GT",
+          errorThreshold: "0",
+          actualValue: "53",
+        },
+        {
+          status: "ERROR",
+          metricKey: "critical_violations",
+          comparator: "GT",
+          errorThreshold: "0",
+          actualValue: "45",
+        },
+        {
+          status: "ERROR",
+          metricKey: "line_coverage",
+          comparator: "LT",
+          errorThreshold: "80",
+          actualValue: "10.1",
+        },
+        {
+          status: "ERROR",
+          metricKey: "major_violations",
+          comparator: "GT",
+          errorThreshold: "0",
+          actualValue: "1168",
+        },
+        {
+          status: "ERROR",
+          metricKey: "minor_violations",
+          comparator: "GT",
+          errorThreshold: "30",
+          actualValue: "81",
+        },
+        {
+          status: "OK",
+          metricKey: "new_duplicated_blocks",
+          comparator: "GT",
+          periodIndex: 1,
+          errorThreshold: "0",
+          actualValue: "0",
+        },
+        {
+          status: "OK",
+          metricKey: "new_minor_violations",
+          comparator: "GT",
+          periodIndex: 1,
+          errorThreshold: "0",
+          actualValue: "0",
+        },
+      ],
+      periods: [
+        {
+          index: 1,
+          mode: "previous_version",
+          date: "2022-10-05T08:07:36+0000",
+          parameter: "GITHUB-RUN-3188221854-43",
+        },
+      ],
+      ignoredConditions: false,
+    },
+  }; // TODO: Fetch result from API
 
   // TODO: Output result
 
