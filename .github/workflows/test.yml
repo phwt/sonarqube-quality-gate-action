@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: phwt/sonarqube-quality-gate-action@v0
         with:
-          sonar-project-key: "test-project"
-          sonar-host-url: "https://example.com"
-          sonar-token: "no-token"
+          sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
+          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
