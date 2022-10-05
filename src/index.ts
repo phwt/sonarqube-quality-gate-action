@@ -14,8 +14,9 @@ import { formatMetricKey, getStatusEmoji, getComparatorSymbol } from "./utils";
     // TODO: Output result
 
     const commentDisabled = core.getInput("disable-pr-comment") == "true";
+    const isPR = github.context.eventName == "pull_request";
 
-    if (!commentDisabled) {
+    if (isPR && !commentDisabled) {
       const resultTable = result.projectStatus.conditions
         .map((condition) => {
           const tableValues = [

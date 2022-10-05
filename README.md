@@ -13,4 +13,3 @@
 | **`disable-pr-comment`** | Disable commenting result on the pull request                                                           | `false`     | **false**    |
 
 <!-- end inputs -->
-
