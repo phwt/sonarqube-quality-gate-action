@@ -4,13 +4,13 @@ const github = require("@actions/github");
 const getStatusEmoji = (status) => {
   switch (status) {
     case "OK":
-      return "🟢 OK";
+      return ":white_check_mark: OK";
     case "ERROR":
-      return "🔴 Error";
+      return ":exclamation:Error";
     case "WARN":
-      return "🟡 Warning";
+      return ":warning: Warning";
     default: // "NONE" and others
-      return "";
+      return ":grey_question:";
   }
 };
 
