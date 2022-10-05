@@ -1,6 +1,15 @@
 name: "SonarQube Quality Gate Check"
 description: "Retrieve quality gate result of an analysis"
 inputs:
+  sonar-project-key:
+    description: "SonarQube project key"
+    required: true
+  sonar-host-url:
+    description: "SonarQube server URL"
+    required: true
+  sonar-token:
+    description: "SonarQube token for retrieving quality gate result"
+    required: true
   github-token:
     description: "GitHub Token for commenting on the pull request - not required if `disable-pr-comment` is set to `true`"
     required: false
