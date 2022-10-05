@@ -1,7 +1,8 @@
-name: Move a major tag to the latest release
+name: Test actions
 
 on:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
