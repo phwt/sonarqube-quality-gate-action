@@ -1,0 +1,23 @@
+{
+  "name": "sonarqube-quality-gate-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phwt/sonarqube-quality-gate-action.git"
+  },
+  "author": "phwt.smwt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phwt/sonarqube-quality-gate-action/issues"
+  },
+  "homepage": "https://github.com/phwt/sonarqube-quality-gate-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
+  }
+}
