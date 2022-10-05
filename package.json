@@ -18,7 +18,8 @@
   "homepage": "https://github.com/phwt/sonarqube-quality-gate-action#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1"
+    "@actions/github": "^5.1.1",
+    "axios": "^1.0.0"
   },
   "devDependencies": {
     "typescript": "^4.8.4"
