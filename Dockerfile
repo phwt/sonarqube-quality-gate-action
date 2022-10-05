@@ -4,4 +4,4 @@ COPY . .
 RUN npm install && npm install -g typescript
 RUN tsc
 
-ENTRYPOINT ["node", "/index.js"]
+ENTRYPOINT ["node", "/src/index.js"]
