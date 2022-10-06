@@ -24,3 +24,11 @@ export interface Period {
   date: Date;
   parameter: string;
 }
+
+export interface ActionInputs {
+  hostURL: string;
+  projectKey: string;
+  token: string;
+  commentDisabled?: boolean;
+  githubToken?: string;
+}
