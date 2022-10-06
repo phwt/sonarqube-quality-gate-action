@@ -2,6 +2,8 @@
 
 Check quality gate result from latest analysis and report result in the pull request's comment.
 
+![PR comment](https://user-images.githubusercontent.com/28344318/194283898-6f3f6466-d4a7-4f83-93a4-daef88b14777.png)
+
 ## Inputs
 
 <!-- start inputs -->
@@ -20,10 +22,10 @@ Check quality gate result from latest analysis and report result in the pull req
 
 <!-- start outputs -->
 
-| **Output**            | **Description**                                         |
-| --------------------- | ------------------------------------------------------- |
-| `project-status`      | Project's quality gate status either as `OK` or `ERROR` |
-| `quality-gate-result` | Quality gate of the latest analysis in JSON format      |
+| **Output**            | **Description**                                           |
+| --------------------- | --------------------------------------------------------- |
+| `project-status`      | Project's quality gate status either as `OK` or `ERROR`   |
+| `quality-gate-result` | Quality gate result of the latest analysis in JSON format |
 
 <!-- end outputs -->
 
