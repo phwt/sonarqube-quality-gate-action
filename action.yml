@@ -17,6 +17,11 @@ inputs:
     description: "Disable commenting result on the pull request"
     required: false
     default: "false"
+outputs:
+  project-status:
+    description: "Project's quality gate status either as `OK` or `ERROR`"
+  quality-gate-result:
+    description: "Quality gate of the latest analysis in JSON format"
 runs:
   using: "docker"
   image: "Dockerfile"
