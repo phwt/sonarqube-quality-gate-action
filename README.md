@@ -20,10 +20,10 @@ Check quality gate result from latest analysis and report result in the pull req
 
 <!-- start outputs -->
 
-| **Output**            | **Description**                                         |
-| --------------------- | ------------------------------------------------------- |
-| `project-status`      | Project's quality gate status either as `OK` or `ERROR` |
-| `quality-gate-result` | Quality gate of the latest analysis in JSON format      |
+| **Output**            | **Description**                                           |
+| --------------------- | --------------------------------------------------------- |
+| `project-status`      | Project's quality gate status either as `OK` or `ERROR`   |
+| `quality-gate-result` | Quality gate result of the latest analysis in JSON format |
 
 <!-- end outputs -->
 
