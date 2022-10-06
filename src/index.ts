@@ -28,7 +28,7 @@ import { trimTrailingSlash } from "./modules/utils";
     if (isPR && !inputs.commentDisabled) {
       if (!inputs.githubToken) {
         throw new Error(
-          "The `inputs.github-token` is required for result comment creation"
+          "`inputs.github-token` is required for result comment creation."
         );
       }
 
