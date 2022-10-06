@@ -21,7 +21,8 @@ import { trimTrailingSlash } from "./modules/utils";
       inputs.token
     );
 
-    // TODO: Output result
+    core.setOutput("project-status", result.projectStatus.status);
+    core.setOutput("quality-gate-result", JSON.stringify(result));
 
     const isPR = github.context.eventName == "pull_request";
 
