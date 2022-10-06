@@ -1,0 +1,16 @@
+name: Test actions
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: phwt/sonarqube-quality-gate-action@v0
+        with:
+          sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
+          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
