@@ -1,12 +1,12 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { fetchQualityGate } from "./sq-api";
+import { fetchQualityGate } from "./modules/sonarqube-api";
 import {
   formatMetricKey,
   getStatusEmoji,
   getComparatorSymbol,
   trimTrailingSlash,
-} from "./utils";
+} from "./modules/utils";
 
 (async () => {
   try {
