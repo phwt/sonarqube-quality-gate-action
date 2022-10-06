@@ -32,18 +32,14 @@ import { trimTrailingSlash } from "./modules/utils";
         );
       }
 
+      const { context } = github;
       const octokit = github.getOctokit(inputs.githubToken);
 
-      octokit.rest.issues.createComment({
-        issue_number: github.context.issue.number,
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        body: buildComment(
-          result,
-          inputs.hostURL,
-          inputs.projectKey,
-          github.context
-        ),
+      await octokit.rest.issues.createComment({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        issue_number: context.issue.number,
+        body: buildComment(result, inputs.hostURL, inputs.projectKey, context),
       });
     }
   } catch (error) {

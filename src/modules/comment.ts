@@ -1,5 +1,5 @@
 import { Context } from "@actions/github/lib/context";
-import { QualityGate } from "./models";
+import { Condition, QualityGate } from "./models";
 import {
   formatMetricKey,
   getStatusEmoji,
@@ -7,31 +7,30 @@ import {
   trimTrailingSlash,
 } from "./utils";
 
+const buildRow = (condition: Condition) => {
+  const rowValues = [
+    formatMetricKey(condition.metricKey), // Metric
+    getStatusEmoji(condition.status), // Status
+    condition.actualValue, // Value
+    `${getComparatorSymbol(condition.comparator)} ${condition.errorThreshold}`, // Error Threshold
+  ];
+
+  return "|" + rowValues.join("|") + "|";
+};
+
 export const buildComment = (
   result: QualityGate,
   hostURL: string,
   projectKey: string,
   context: Context
 ) => {
-  const resultTable = result.projectStatus.conditions
-    .map((condition) => {
-      const tableValues = [
-        formatMetricKey(condition.metricKey),
-        getStatusEmoji(condition.status),
-        condition.actualValue,
-        `${getComparatorSymbol(condition.comparator)} ${
-          condition.errorThreshold
-        }`,
-      ];
-
-      return `|${tableValues.join("|")}|`;
-    })
-    .join("\n");
-
   const projectURL = trimTrailingSlash(hostURL) + `/dashboard?id=${projectKey}`;
+  const projectStatus = getStatusEmoji(result.projectStatus.status);
 
-  const output = `### SonarQube Quality Gate Result 
-- **Result**: ${getStatusEmoji(result.projectStatus.status)}
+  const resultTable = result.projectStatus.conditions.map(buildRow).join("\n");
+
+  return `### SonarQube Quality Gate Result 
+- **Result**: ${projectStatus}
 - Triggered by @${context.actor} on \`${context.eventName}\`
 
 | Metric | Status | Value | Error Threshold |
@@ -39,6 +38,4 @@ export const buildComment = (
 ${resultTable}
 
 [View on SonarQube](${projectURL})`;
-
-  return output;
 };
