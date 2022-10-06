@@ -1,13 +1,21 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { fetchQualityGate } from "./sq-api";
-import { formatMetricKey, getStatusEmoji, getComparatorSymbol } from "./utils";
+import {
+  formatMetricKey,
+  getStatusEmoji,
+  getComparatorSymbol,
+  trimTrailingSlash,
+} from "./utils";
 
 (async () => {
   try {
+    const hostURL = trimTrailingSlash(core.getInput("sonar-host-url"));
+    const projectKey = core.getInput("sonar-project-key");
+
     const result = await fetchQualityGate(
-      core.getInput("sonar-host-url"),
-      core.getInput("sonar-project-key"),
+      hostURL,
+      projectKey,
       core.getInput("sonar-token")
     );
 
@@ -32,8 +40,8 @@ import { formatMetricKey, getStatusEmoji, getComparatorSymbol } from "./utils";
         })
         .join("\n");
 
-      const projectKey = core.getInput("sonar-project-key");
-      const hostURL = core.getInput("sonar-host-url");
+      const projectURL =
+        trimTrailingSlash(hostURL) + `/dashboard?id=${projectKey}`;
 
       const output = `### SonarQube Quality Gate Result 
 - **Result**: ${getStatusEmoji(result.projectStatus.status)}
@@ -43,7 +51,7 @@ import { formatMetricKey, getStatusEmoji, getComparatorSymbol } from "./utils";
 |:------:|:------:|:-----:|:---------------:|
 ${resultTable}
 
-[View on SonarQube](${hostURL}/dashboard?id=${projectKey})`;
+[View on SonarQube](${projectURL})`;
 
       const token = core.getInput("github-token");
       const octokit = github.getOctokit(token);

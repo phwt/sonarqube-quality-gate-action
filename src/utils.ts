@@ -41,3 +41,6 @@ export const formatMetricKey = (metricKey: string) => {
   const replacedString = metricKey.replace(/_/g, " ");
   return replacedString.charAt(0).toUpperCase() + replacedString.slice(1);
 };
+
+export const trimTrailingSlash = (value: string) =>
+  value.endsWith("/") ? value.slice(0, -1) : value;
