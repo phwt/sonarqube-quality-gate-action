@@ -1,5 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
+import { buildComment } from "./modules/comment";
 import { fetchQualityGate } from "./modules/sonarqube-api";
 import {
   formatMetricKey,
@@ -25,34 +26,6 @@ import {
     const isPR = github.context.eventName == "pull_request";
 
     if (isPR && !commentDisabled) {
-      const resultTable = result.projectStatus.conditions
-        .map((condition) => {
-          const tableValues = [
-            formatMetricKey(condition.metricKey),
-            getStatusEmoji(condition.status),
-            condition.actualValue,
-            `${getComparatorSymbol(condition.comparator)} ${
-              condition.errorThreshold
-            }`,
-          ];
-
-          return `|${tableValues.join("|")}|`;
-        })
-        .join("\n");
-
-      const projectURL =
-        trimTrailingSlash(hostURL) + `/dashboard?id=${projectKey}`;
-
-      const output = `### SonarQube Quality Gate Result 
-- **Result**: ${getStatusEmoji(result.projectStatus.status)}
-- Triggered by @${github.context.actor} on \`${github.context.eventName}\`
-
-| Metric | Status | Value | Error Threshold |
-|:------:|:------:|:-----:|:---------------:|
-${resultTable}
-
-[View on SonarQube](${projectURL})`;
-
       const token = core.getInput("github-token");
       const octokit = github.getOctokit(token);
 
@@ -60,7 +33,7 @@ ${resultTable}
         issue_number: github.context.issue.number,
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        body: output,
+        body: buildComment(result, hostURL, projectKey, github.context),
       });
     }
   } catch (error) {
