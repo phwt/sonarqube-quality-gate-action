@@ -11,19 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Setup Git
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-
-      - name: Update tags
-        run: |
-          CURRENT_TAG=$(git describe --tags)
-          MAJOR_TAG=$(awk -F'.' '{print $1}' <<< "$CURRENT_TAG")
-          echo "Moving major tag '$MAJOR_TAG' to the same commit as '$CURRENT_TAG' tag"
-          # Remove remote old major tag
-          git push --delete origin $MAJOR_TAG 
-          # Tag current commit with major tag
-          git tag $MAJOR_TAG 
-          git push --tags
+      - uses: phwt/major-tagging-action@v1
