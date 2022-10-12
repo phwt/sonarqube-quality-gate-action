@@ -54,3 +54,37 @@ jobs:
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
           echo "${{ steps.quality-gate-check.outputs.quality-gate-result }}"
 ```
+
+### Check the results immediately after the scan
+
+Sometimes the results will not be available right away after the scan has finished.
+Make sure to add a defer step before retrieving the scan results.
+
+```yml
+name: Check quality gate result on pull request
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: some/scan-actions@v1 # Step for scanning your project
+
+      - name: Wait for the quality gate result
+        run: sleep 5
+
+      - uses: phwt/sonarqube-quality-gate-action@v1
+        id: quality-gate-check
+        with:
+          sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
+          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Output result
+        run: |
+          echo "${{ steps.quality-gate-check.outputs.project-status }}"
+          echo "${{ steps.quality-gate-check.outputs.quality-gate-result }}"
+```
