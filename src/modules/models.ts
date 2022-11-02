@@ -31,4 +31,7 @@ export interface ActionInputs {
   token: string;
   commentDisabled?: boolean;
   githubToken?: string;
+  outputType: OutputType;
 }
+
+export type OutputType = 'comment' | 'description' | 'disabled';
