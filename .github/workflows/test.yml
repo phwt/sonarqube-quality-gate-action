@@ -40,6 +40,16 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           output-type: description
 
+      # Rerun the action to test the description update
+      - uses: ./
+        id: quality-gate-check
+        with:
+          sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
+          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          output-type: description
+
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
           echo "${{ steps.quality-gate-check.outputs.quality-gate-result }}"
