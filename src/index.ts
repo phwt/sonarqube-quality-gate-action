@@ -48,14 +48,12 @@ import { findComment } from "./modules/find-comment/main";
 
       const issueComment = await findComment({
         token: inputs.githubToken,
-        repository: context.repo.repo,
+        repository: `${context.repo.owner}/${context.repo.repo}`,
         issueNumber: context.issue.number,
         commentAuthor: "github-actions[bot]",
         bodyIncludes: "SonarQube Quality Gate Result",
         direction: "first",
       });
-
-      console.log(issueComment);
 
       if (issueComment) {
         console.log("Found existing comment, updating with the latest report.");
