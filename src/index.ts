@@ -44,6 +44,8 @@ import { findComment } from "./modules/find-comment/main";
         context
       );
 
+      console.log("Finding comment associated with the report...");
+
       const issueComment = await findComment({
         token: inputs.githubToken,
         repository: context.repo.repo,
@@ -53,7 +55,11 @@ import { findComment } from "./modules/find-comment/main";
         direction: "first",
       });
 
+      console.log(issueComment);
+
       if (issueComment) {
+        console.log("Found existing comment, updating with the latest report.");
+
         await octokit.rest.issues.updateComment({
           owner: context.repo.owner,
           repo: context.repo.repo,
@@ -62,6 +68,8 @@ import { findComment } from "./modules/find-comment/main";
           body: reportBody,
         });
       } else {
+        console.log("Report comment does not exist, creating a new one.");
+
         await octokit.rest.issues.createComment({
           owner: context.repo.owner,
           repo: context.repo.repo,
