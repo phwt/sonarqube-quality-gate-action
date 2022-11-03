@@ -21,7 +21,7 @@ const buildRow = (condition: Condition) => {
 const startBlock = "<!-- start-report -->";
 const endBlock = "<!-- end-report -->";
 
-export const reportRegex = new RegExp(`${startBlock}[\s\S]*${endBlock}`);
+export const reportBlockRegex = new RegExp(`${startBlock}[\s\S]*${endBlock}`);
 
 export const buildReport = (
   result: QualityGate,

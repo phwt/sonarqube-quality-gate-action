@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { buildReport, reportRegex } from "./modules/report";
+import { buildReport, reportBlockRegex } from "./modules/report";
 import { ActionInputs, OutputType } from "./modules/models";
 import { fetchQualityGate } from "./modules/sonarqube-api";
 import { trimTrailingSlash } from "./modules/utils";
@@ -44,16 +44,18 @@ import { trimTrailingSlash } from "./modules/utils";
       );
 
       if (inputs.outputType === "description") {
-        const issue = await octokit.rest.issues.get({
+        const {
+          data: { body: issueBody },
+        } = await octokit.rest.issues.get({
           owner: context.repo.owner,
           repo: context.repo.repo,
           issue_number: context.issue.number,
         });
 
-        const updatedBody =
-          issue.data.body && reportRegex.test(issue.data.body)
-            ? issue.data.body.replace(reportRegex, reportBody)
-            : `${issue.data.body}\n\n---\n\n${reportBody}`;
+        const isBlockPresent = issueBody && reportBlockRegex.test(issueBody);
+        const updatedBody = isBlockPresent
+          ? issueBody.replace(reportBlockRegex, reportBody)
+          : `${issueBody}\n\n---\n\n${reportBody}`;
 
         await octokit.rest.issues.update({
           owner: context.repo.owner,
