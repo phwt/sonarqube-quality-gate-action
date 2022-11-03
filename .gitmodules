@@ -1,3 +1,0 @@
-[submodule "src/modules/find-comment"]
-	path = src/modules/find-comment
-	url = https://github.com/phwt/find-comment.git
