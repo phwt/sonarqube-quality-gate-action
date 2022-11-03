@@ -4,7 +4,7 @@ import { buildReport } from "./modules/report";
 import { ActionInputs } from "./modules/models";
 import { fetchQualityGate } from "./modules/sonarqube-api";
 import { trimTrailingSlash } from "./modules/utils";
-import { findComment } from "./modules/find-comment";
+import { findComment } from "./modules/find-comment/src/main";
 
 (async () => {
   try {
