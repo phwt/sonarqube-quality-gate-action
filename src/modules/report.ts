@@ -18,11 +18,6 @@ const buildRow = (condition: Condition) => {
   return "|" + rowValues.join("|") + "|";
 };
 
-const startBlock = "<!-- start-report -->";
-const endBlock = "<!-- end-report -->";
-
-export const reportBlockRegex = new RegExp(`${startBlock}[\s\S]*${endBlock}`);
-
 export const buildReport = (
   result: QualityGate,
   hostURL: string,
@@ -34,8 +29,7 @@ export const buildReport = (
 
   const resultTable = result.projectStatus.conditions.map(buildRow).join("\n");
 
-  return `${startBlock}
-### SonarQube Quality Gate Result 
+  return `### SonarQube Quality Gate Result 
 - **Result**: ${projectStatus}
 - Triggered by @${context.actor} on \`${context.eventName}\`
 
@@ -44,5 +38,5 @@ export const buildReport = (
 ${resultTable}
 
 [View on SonarQube](${projectURL})
-${endBlock}`;
+###### _(report time: ${result.projectStatus.periods[0].date.toLocaleString()}, updated: ${new Date().toLocaleString()})_`;
 };
