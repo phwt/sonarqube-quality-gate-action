@@ -31,7 +31,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: ./
+      - name: Append the description with the result
+        uses: ./
         id: quality-gate-check
         with:
           sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
@@ -40,8 +41,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           output-type: description
 
-      # Rerun the action to test the description update
-      - uses: ./
+      - name: Wait before updating the description
+        run: sleep 5
+
+      - name: Rerun to test the description update
+        uses: ./
         id: quality-gate-check
         with:
           sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
