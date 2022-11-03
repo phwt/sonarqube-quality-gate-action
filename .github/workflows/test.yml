@@ -12,7 +12,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: ./
+      - name: Create a comment with the result
+        uses: ./
+        id: initial-quality-gate-check
+        with:
+          sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
+          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wait before updating the comment
+        run: sleep 5
+
+      - name: Rerun to test the comment update
+        uses: ./
         id: quality-gate-check
         with:
           sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}

@@ -18,7 +18,7 @@ const buildRow = (condition: Condition) => {
   return "|" + rowValues.join("|") + "|";
 };
 
-export const buildComment = (
+export const buildReport = (
   result: QualityGate,
   hostURL: string,
   projectKey: string,
@@ -37,5 +37,6 @@ export const buildComment = (
 |:------:|:------:|:-----:|:---------------:|
 ${resultTable}
 
-[View on SonarQube](${projectURL})`;
+[View on SonarQube](${projectURL})
+###### _(updated: ${new Date().toLocaleString()})_`;
 };

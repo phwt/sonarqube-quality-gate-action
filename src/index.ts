@@ -1,9 +1,10 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { buildComment } from "./modules/comment";
+import { buildReport } from "./modules/report";
 import { ActionInputs } from "./modules/models";
 import { fetchQualityGate } from "./modules/sonarqube-api";
 import { trimTrailingSlash } from "./modules/utils";
+import { findComment } from "./modules/find-comment/main";
 
 (async () => {
   try {
@@ -36,12 +37,44 @@ import { trimTrailingSlash } from "./modules/utils";
       const { context } = github;
       const octokit = github.getOctokit(inputs.githubToken);
 
-      await octokit.rest.issues.createComment({
-        owner: context.repo.owner,
-        repo: context.repo.repo,
-        issue_number: context.issue.number,
-        body: buildComment(result, inputs.hostURL, inputs.projectKey, context),
+      const reportBody = buildReport(
+        result,
+        inputs.hostURL,
+        inputs.projectKey,
+        context
+      );
+
+      console.log("Finding comment associated with the report...");
+
+      const issueComment = await findComment({
+        token: inputs.githubToken,
+        repository: `${context.repo.owner}/${context.repo.repo}`,
+        issueNumber: context.issue.number,
+        commentAuthor: "github-actions[bot]",
+        bodyIncludes: "SonarQube Quality Gate Result",
+        direction: "first",
       });
+
+      if (issueComment) {
+        console.log("Found existing comment, updating with the latest report.");
+
+        await octokit.rest.issues.updateComment({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          issue_number: context.issue.number,
+          comment_id: issueComment.id,
+          body: reportBody,
+        });
+      } else {
+        console.log("Report comment does not exist, creating a new one.");
+
+        await octokit.rest.issues.createComment({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          issue_number: context.issue.number,
+          body: reportBody,
+        });
+      }
     }
   } catch (error) {
     if (error instanceof Error) {
