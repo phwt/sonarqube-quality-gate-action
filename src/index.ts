@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { buildReport } from "./modules/report";
-import { ActionInputs, OutputType } from "./modules/models";
+import { ActionInputs } from "./modules/models";
 import { fetchQualityGate } from "./modules/sonarqube-api";
 import { trimTrailingSlash } from "./modules/utils";
 import { findComment } from "./modules/find-comment/src/main";
@@ -12,7 +12,7 @@ import { findComment } from "./modules/find-comment/src/main";
       hostURL: trimTrailingSlash(core.getInput("sonar-host-url")),
       projectKey: core.getInput("sonar-project-key"),
       token: core.getInput("sonar-token"),
-      outputType: (core.getInput("output-type") as OutputType) ?? "comment",
+      commentDisabled: core.getInput("disable-pr-comment") == "true",
       githubToken: core.getInput("github-token"),
     };
 
@@ -27,7 +27,7 @@ import { findComment } from "./modules/find-comment/src/main";
 
     const isPR = github.context.eventName == "pull_request";
 
-    if (isPR && inputs.outputType !== "disabled") {
+    if (isPR && !inputs.commentDisabled) {
       if (!inputs.githubToken) {
         throw new Error(
           "`inputs.github-token` is required for result comment creation."
