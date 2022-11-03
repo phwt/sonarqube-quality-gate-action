@@ -53,7 +53,7 @@ import { trimTrailingSlash } from "./modules/utils";
         const updatedBody =
           issue.data.body && reportRegex.test(issue.data.body)
             ? issue.data.body.replace(reportRegex, reportBody)
-            : reportBody;
+            : `${issue.data.body}\n---\n${reportBody}`;
 
         await octokit.rest.issues.update({
           owner: context.repo.owner,
