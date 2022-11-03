@@ -33,7 +33,7 @@ jobs:
 
       - name: Append the description with the result
         uses: ./
-        id: quality-gate-check
+        id: initial-quality-gate-check
         with:
           sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
           sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
