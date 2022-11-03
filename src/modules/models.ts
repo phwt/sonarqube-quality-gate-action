@@ -34,4 +34,4 @@ export interface ActionInputs {
   outputType: OutputType;
 }
 
-export type OutputType = 'comment' | 'description' | 'disabled';
+export type OutputType = "comment" | "description" | "disabled";

@@ -11,7 +11,7 @@ import { trimTrailingSlash } from "./modules/utils";
       hostURL: trimTrailingSlash(core.getInput("sonar-host-url")),
       projectKey: core.getInput("sonar-project-key"),
       token: core.getInput("sonar-token"),
-      outputType: core.getInput("output-type") as OutputType ?? "comment",
+      outputType: (core.getInput("output-type") as OutputType) ?? "comment",
       githubToken: core.getInput("github-token"),
     };
 
@@ -36,25 +36,31 @@ import { trimTrailingSlash } from "./modules/utils";
       const { context } = github;
       const octokit = github.getOctokit(inputs.githubToken);
 
-      const reportBody = buildReport(result, inputs.hostURL, inputs.projectKey, context)
+      const reportBody = buildReport(
+        result,
+        inputs.hostURL,
+        inputs.projectKey,
+        context
+      );
 
       if (inputs.outputType === "description") {
         const issue = await octokit.rest.issues.get({
           owner: context.repo.owner,
           repo: context.repo.repo,
-          issue_number: context.issue.number
-        })
+          issue_number: context.issue.number,
+        });
 
-        const updatedBody = issue.data.body && reportRegex.test(issue.data.body)
-          ? issue.data.body.replace(reportRegex, reportBody)
-          : reportBody
+        const updatedBody =
+          issue.data.body && reportRegex.test(issue.data.body)
+            ? issue.data.body.replace(reportRegex, reportBody)
+            : reportBody;
 
         await octokit.rest.issues.update({
           owner: context.repo.owner,
           repo: context.repo.repo,
           issue_number: context.issue.number,
-          body: updatedBody
-        })
+          body: updatedBody,
+        });
       } else {
         await octokit.rest.issues.createComment({
           owner: context.repo.owner,

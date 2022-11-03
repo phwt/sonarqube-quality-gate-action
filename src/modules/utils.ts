@@ -8,7 +8,7 @@ export const getStatusEmoji = (status: string) => {
     case "OK":
       return ":white_check_mark: OK";
     case "ERROR":
-      return ":exclamation:Error";
+      return ":exclamation: Error";
     case "WARN":
       return ":warning: Warning";
     default: // "NONE" and others
