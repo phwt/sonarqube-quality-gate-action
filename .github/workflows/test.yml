@@ -20,7 +20,6 @@ jobs:
           sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          output-type: description
 
       - name: Wait before updating the description
         run: sleep 5
@@ -33,7 +32,6 @@ jobs:
           sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          output-type: description
 
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
