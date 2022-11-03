@@ -1,9 +1,10 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { buildReport, reportBlockRegex } from "./modules/report";
+import { buildReport } from "./modules/report";
 import { ActionInputs, OutputType } from "./modules/models";
 import { fetchQualityGate } from "./modules/sonarqube-api";
 import { trimTrailingSlash } from "./modules/utils";
+import { findComment } from "./modules/find-comment";
 
 (async () => {
   try {
@@ -43,25 +44,22 @@ import { trimTrailingSlash } from "./modules/utils";
         context
       );
 
-      if (inputs.outputType === "description") {
-        const {
-          data: { body: issueBody },
-        } = await octokit.rest.issues.get({
+      const issueComment = await findComment({
+        token: inputs.githubToken,
+        repository: context.repo.repo,
+        issueNumber: context.issue.number,
+        commentAuthor: "github-actions[bot]",
+        bodyIncludes: "SonarQube Quality Gate Result",
+        direction: "first",
+      });
+
+      if (issueComment) {
+        await octokit.rest.issues.updateComment({
           owner: context.repo.owner,
           repo: context.repo.repo,
           issue_number: context.issue.number,
-        });
-
-        const isBlockPresent = issueBody && reportBlockRegex.test(issueBody);
-        const updatedBody = isBlockPresent
-          ? issueBody.replace(reportBlockRegex, reportBody)
-          : `${issueBody}\n\n---\n\n${reportBody}`;
-
-        await octokit.rest.issues.update({
-          owner: context.repo.owner,
-          repo: context.repo.repo,
-          issue_number: context.issue.number,
-          body: updatedBody,
+          comment_id: issueComment.id,
+          body: reportBody,
         });
       } else {
         await octokit.rest.issues.createComment({
