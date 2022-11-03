@@ -44,5 +44,6 @@ export const buildReport = (
 ${resultTable}
 
 [View on SonarQube](${projectURL})
+###### _(report time: ${result.projectStatus.periods[0].date.toLocaleString()}, updated: ${new Date().toLocaleString()})_
 ${endBlock}`;
 };
