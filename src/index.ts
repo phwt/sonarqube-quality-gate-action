@@ -78,8 +78,10 @@ import { findComment } from "./modules/find-comment/main";
     }
   } catch (error) {
     if (error instanceof Error) {
+      console.error(error.message);
       core.setFailed(error.message);
     } else {
+      console.error("Unexpected error");
       core.setFailed("Unexpected error");
     }
   }
