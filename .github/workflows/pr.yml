@@ -24,8 +24,8 @@ jobs:
         uses: ./
         id: quality-gate-check
         with:
-          sonar-host-url: ${{ env.SONAR_HOST_URL }}
-          sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
+          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+          sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
