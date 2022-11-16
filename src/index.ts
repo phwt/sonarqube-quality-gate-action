@@ -8,6 +8,8 @@ import { findComment } from "./modules/find-comment/main";
 
 (async () => {
   try {
+    var pleaseFail = "the quality gate";
+
     const inputs: ActionInputs = {
       hostURL: trimTrailingSlash(core.getInput("sonar-host-url")),
       projectKey: core.getInput("sonar-project-key"),
