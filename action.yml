@@ -17,6 +17,10 @@ inputs:
     description: "Disable commenting result on the pull request"
     required: false
     default: "false"
+  fail-on-quality-gate-error:
+    description: "Set the action status to failed when quality gate status is `ERROR`"
+    required: false
+    default: "false"
 outputs:
   project-status:
     description: "Project's quality gate status either as `OK` or `ERROR`"

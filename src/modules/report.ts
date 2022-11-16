@@ -29,7 +29,7 @@ export const buildReport = (
 
   const resultTable = result.projectStatus.conditions.map(buildRow).join("\n");
 
-  return `### SonarQube Quality Gate Result 
+  return `### SonarQube Quality Gate Result
 - **Result**: ${projectStatus}
 - Triggered by @${context.actor} on \`${context.eventName}\`
 

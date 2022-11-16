@@ -12,7 +12,9 @@ import { findComment } from "./modules/find-comment/main";
       hostURL: trimTrailingSlash(core.getInput("sonar-host-url")),
       projectKey: core.getInput("sonar-project-key"),
       token: core.getInput("sonar-token"),
-      commentDisabled: core.getInput("disable-pr-comment") == "true",
+      commentDisabled: core.getInput("disable-pr-comment") === "true",
+      failOnQualityGateError:
+        core.getInput("fail-on-quality-gate-error") === "true",
       githubToken: core.getInput("github-token"),
     };
 
@@ -76,10 +78,23 @@ import { findComment } from "./modules/find-comment/main";
         });
       }
     }
+
+    let resultMessage = `Quality gate status for \`${inputs.projectKey}\` returned \`${result.projectStatus.status}\``;
+    if (
+      inputs.failOnQualityGateError &&
+      result.projectStatus.status === "ERROR"
+    ) {
+      console.error(resultMessage);
+      core.setFailed(resultMessage);
+    } else {
+      console.log(resultMessage);
+    }
   } catch (error) {
     if (error instanceof Error) {
+      console.error(error.message);
       core.setFailed(error.message);
     } else {
+      console.error("Unexpected error");
       core.setFailed("Unexpected error");
     }
   }
