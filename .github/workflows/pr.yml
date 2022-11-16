@@ -17,6 +17,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=phwt
+            -Dsonar.projectKey=sonarqube-quality-gate-action
+            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+
       - name: Wait quality gate result
         run: sleep 5
 
@@ -24,11 +35,10 @@ jobs:
         uses: ./
         id: quality-gate-check
         with:
-          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
-          sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
+          sonar-host-url: ${{ env.SONAR_HOST_URL }}
+          sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          fail-on-quality-gate-error: true
 
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
