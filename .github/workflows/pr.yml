@@ -1,4 +1,4 @@
-name: Test actions
+name: Check code quality on pull request
 
 on:
   pull_request:
@@ -9,7 +9,27 @@ env:
   SONAR_PROJECT_KEY: sonarqube-quality-gate-action
 
 jobs:
+  sonar-scan:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=phwt \
+            -Dsonar.projectKey=sonarqube-quality-gate-action \
+            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+
   test:
+    needs: sonar-scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,18 +37,6 @@ jobs:
           fetch-depth: 0
 
       - name: Create a comment with the result
-        uses: ./
-        id: initial-quality-gate-check
-        with:
-          sonar-host-url: ${{ env.SONAR_HOST_URL }}
-          sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Wait before updating the comment
-        run: sleep 5
-
-      - name: Rerun to test the comment update
         uses: ./
         id: quality-gate-check
         with:
