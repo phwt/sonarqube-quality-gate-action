@@ -28,6 +28,7 @@ jobs:
           sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-quality-gate-error: true
 
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
