@@ -24,11 +24,11 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=phwt \
-            -Dsonar.projectKey=sonarqube-quality-gate-action \
+            -Dsonar.organization=phwt 
+            -Dsonar.projectKey=sonarqube-quality-gate-action 
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
 
-  test:
+  report:
     needs: sonar-scan
     runs-on: ubuntu-latest
     steps:
