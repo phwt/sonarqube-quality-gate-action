@@ -1,4 +1,12 @@
-import { formatMetricKey, formatStringNumber, getComparatorSymbol, getStatusEmoji, trimTrailingSlash } from "../utils";
+import {
+  formatMetricKey,
+  formatStringNumber,
+  getComparatorSymbol,
+  getCurrentDateTime,
+  getStatusEmoji,
+  trimTrailingSlash,
+} from "../utils";
+import timezone_mock from "timezone-mock";
 
 describe("getStatusEmoji", () => {
   test("should return check mark with OK when status is `OK`", () => {
@@ -40,11 +48,15 @@ describe("formatMetricKey", () => {
 
 describe("trimTrailingSlash", () => {
   test("should remove trailing slash from the string", () => {
-    expect(trimTrailingSlash("/string/with/trailing/slash/")).toBe("/string/with/trailing/slash");
+    expect(trimTrailingSlash("/string/with/trailing/slash/")).toBe(
+      "/string/with/trailing/slash"
+    );
   });
 
   test("should return the same string when the input does not contains trailing slash", () => {
-    expect(trimTrailingSlash("/string/without/trailing/slash")).toBe("/string/without/trailing/slash");
+    expect(trimTrailingSlash("/string/without/trailing/slash")).toBe(
+      "/string/without/trailing/slash"
+    );
   });
 });
 
@@ -59,5 +71,24 @@ describe("formatStringNumber", () => {
 
   test("should return number in string with decimal when float is supplied", () => {
     expect(formatStringNumber("1.2345")).toBe("1.23");
+  });
+});
+
+jest.useFakeTimers().setSystemTime(new Date("1970-01-01"));
+
+describe("getCurrentDateTime", () => {
+  test("offset should be plus sign when timezone offset is UTC", () => {
+    timezone_mock.register("UTC");
+    expect(getCurrentDateTime().offset).toBe("UTC+0");
+  });
+
+  test("offset should be plus sign when timezone offset is positive", () => {
+    timezone_mock.register("Etc/GMT-7"); // ? Etc/GMT-7 is equivalent to +07:00
+    expect(getCurrentDateTime().offset).toBe("UTC+7");
+  });
+
+  test("offset should be minus sign when timezone offset is negative", () => {
+    timezone_mock.register("Etc/GMT+7"); // ? Etc/GMT+7 is equivalent to -07:00
+    expect(getCurrentDateTime().offset).toBe("UTC-7");
   });
 });

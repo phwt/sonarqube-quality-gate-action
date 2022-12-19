@@ -6,6 +6,7 @@ import {
   getComparatorSymbol,
   trimTrailingSlash,
   formatStringNumber,
+  getCurrentDateTime,
 } from "./utils";
 
 const buildRow = (condition: Condition) => {
@@ -30,16 +31,7 @@ export const buildReport = (
 
   const resultTable = result.projectStatus.conditions.map(buildRow).join("\n");
 
-  const { updatedDate, updatedOffset } = (() => {
-    const currentDate = new Date();
-    const offset = -(currentDate.getTimezoneOffset() / 60);
-    const offsetSign = offset >= 0 ? "+" : "-";
-
-    return {
-      updatedDate: currentDate.toLocaleString(),
-      updatedOffset: `UTC${offsetSign}${offset}`,
-    };
-  })();
+  const { value: updatedDate, offset: updatedOffset } = getCurrentDateTime();
 
   return `### SonarQube Quality Gate Result
 - **Result**: ${projectStatus}
