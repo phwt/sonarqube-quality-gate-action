@@ -30,6 +30,17 @@ export const buildReport = (
 
   const resultTable = result.projectStatus.conditions.map(buildRow).join("\n");
 
+  const { updatedDate, updatedOffset } = (() => {
+    const currentDate = new Date();
+    const offset = -(currentDate.getTimezoneOffset() / 60);
+    const offsetSign = offset >= 0 ? "+" : "-";
+
+    return {
+      updatedDate: currentDate.toLocaleString(),
+      updatedOffset: `UTC${offsetSign}${offset}`,
+    };
+  })();
+
   return `### SonarQube Quality Gate Result
 - **Result**: ${projectStatus}
 - Triggered by @${context.actor} on \`${context.eventName}\`
@@ -39,5 +50,5 @@ export const buildReport = (
 ${resultTable}
 
 [View on SonarQube](${projectURL})
-###### _(updated: ${new Date().toLocaleString()})_`;
+###### _updated: ${updatedDate} (${updatedOffset})_`;
 };

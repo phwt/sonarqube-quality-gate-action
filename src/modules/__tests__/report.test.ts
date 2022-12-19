@@ -1,11 +1,13 @@
 import { Context } from "@actions/github/lib/context";
 import { QualityGate } from "../models";
 import { buildReport } from "../report";
+import timezone_mock from "timezone-mock";
 
 jest.useFakeTimers().setSystemTime(new Date("1970-01-01"));
 
 describe("buildReport", () => {
   test("should build report", () => {
+    timezone_mock.register("UTC");
     const hostURL = "https://host-url.com/";
     const projectKey = "project-key";
 
@@ -136,7 +138,7 @@ describe("buildReport", () => {
 |New minor violations|:white_check_mark: OK|0|> 0|
 
 [View on SonarQube](https://host-url.com/dashboard?id=project-key)
-###### _(updated: 1/1/1970, 7:00:00 AM)_`;
+###### _updated: 1/1/1970, 12:00:00 AM (UTC+0)_`;
     expect(report).toBe(expectedReport);
   });
 });
