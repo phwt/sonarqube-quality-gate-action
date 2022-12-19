@@ -1,4 +1,4 @@
-import { formatMetricKey, getComparatorSymbol, getStatusEmoji, trimTrailingSlash } from "../utils";
+import { formatMetricKey, formatStringNumber, getComparatorSymbol, getStatusEmoji, trimTrailingSlash } from "../utils";
 
 describe("getStatusEmoji", () => {
   test("should return check mark with OK when status is `OK`", () => {
@@ -45,5 +45,19 @@ describe("trimTrailingSlash", () => {
 
   test("should return the same string when the input does not contains trailing slash", () => {
     expect(trimTrailingSlash("/string/without/trailing/slash")).toBe("/string/without/trailing/slash");
+  });
+});
+
+describe("formatStringNumber", () => {
+  test("should return number in string without decimal when integer string is supplied", () => {
+    expect(formatStringNumber("1")).toBe("1");
+  });
+
+  test("should return number in string without decimal when integer with decimal is supplied", () => {
+    expect(formatStringNumber("1.00")).toBe("1");
+  });
+
+  test("should return number in string with decimal when float is supplied", () => {
+    expect(formatStringNumber("1.2345")).toBe("1.23");
   });
 });

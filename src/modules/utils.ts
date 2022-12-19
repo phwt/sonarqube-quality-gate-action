@@ -44,3 +44,9 @@ export const formatMetricKey = (metricKey: string) => {
 
 export const trimTrailingSlash = (value: string) =>
   value.endsWith("/") ? value.slice(0, -1) : value;
+
+export const formatStringNumber = (value: string) => {
+  const floatValue = parseFloat(value);
+  const isValueInteger = floatValue % 1 === 0;
+  return isValueInteger ? floatValue.toFixed(0) : floatValue.toFixed(2);
+};

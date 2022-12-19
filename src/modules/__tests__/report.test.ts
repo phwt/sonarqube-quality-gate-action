@@ -129,7 +129,7 @@ describe("buildReport", () => {
 |Sqale rating|:white_check_mark: OK|1|> 1|
 |Blocker violations|:exclamation: Error|53|> 0|
 |Critical violations|:exclamation: Error|45|> 0|
-|Line coverage|:exclamation: Error|10.1|< 80|
+|Line coverage|:exclamation: Error|10.10|< 80|
 |Major violations|:exclamation: Error|1168|> 0|
 |Minor violations|:exclamation: Error|81|> 30|
 |New duplicated blocks|:white_check_mark: OK|0|> 0|

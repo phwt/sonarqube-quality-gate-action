@@ -5,13 +5,14 @@ import {
   getStatusEmoji,
   getComparatorSymbol,
   trimTrailingSlash,
+  formatStringNumber,
 } from "./utils";
 
 const buildRow = (condition: Condition) => {
   const rowValues = [
     formatMetricKey(condition.metricKey), // Metric
     getStatusEmoji(condition.status), // Status
-    condition.actualValue, // Value
+    formatStringNumber(condition.actualValue), // Value
     `${getComparatorSymbol(condition.comparator)} ${condition.errorThreshold}`, // Error Threshold
   ];
 
