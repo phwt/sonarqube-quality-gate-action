@@ -62,7 +62,7 @@ export const getCurrentDateTime = () => {
   const offsetSign = offset >= 0 ? "+" : "-";
 
   return {
-    value: currentDate.toLocaleString(),
+    value: currentDate.toLocaleString(undefined, { hourCycle: "h23" }),
     offset: `UTC${offsetSign}${Math.abs(offset)}`,
   };
 };

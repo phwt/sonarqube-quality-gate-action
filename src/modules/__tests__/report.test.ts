@@ -3,7 +3,7 @@ import { QualityGate } from "../models";
 import { buildReport } from "../report";
 import timezone_mock from "timezone-mock";
 
-jest.useFakeTimers().setSystemTime(new Date("1970-01-01"));
+jest.useFakeTimers().setSystemTime(new Date("1970-01-01T08:31+00:00"));
 
 describe("buildReport", () => {
   test("should build report", () => {
@@ -138,7 +138,7 @@ describe("buildReport", () => {
 |New minor violations|:white_check_mark: OK|0|> 0|
 
 [View on SonarQube](https://host-url.com/dashboard?id=project-key)
-###### _updated: 1/1/1970, 12:00:00 AM (UTC+0)_`;
+###### _updated: 1/1/1970, 08:31:00 (UTC+0)_`;
     expect(report).toBe(expectedReport);
   });
 });
