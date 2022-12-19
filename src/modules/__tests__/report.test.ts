@@ -1,11 +1,13 @@
 import { Context } from "@actions/github/lib/context";
 import { QualityGate } from "../models";
 import { buildReport } from "../report";
+import timezone_mock from "timezone-mock";
 
-jest.useFakeTimers().setSystemTime(new Date("1970-01-01"));
+jest.useFakeTimers().setSystemTime(new Date("1970-01-01T08:31+00:00"));
 
 describe("buildReport", () => {
   test("should build report", () => {
+    timezone_mock.register("UTC");
     const hostURL = "https://host-url.com/";
     const projectKey = "project-key";
 
@@ -129,14 +131,14 @@ describe("buildReport", () => {
 |Sqale rating|:white_check_mark: OK|1|> 1|
 |Blocker violations|:exclamation: Error|53|> 0|
 |Critical violations|:exclamation: Error|45|> 0|
-|Line coverage|:exclamation: Error|10.1|< 80|
+|Line coverage|:exclamation: Error|10.10|< 80|
 |Major violations|:exclamation: Error|1168|> 0|
 |Minor violations|:exclamation: Error|81|> 30|
 |New duplicated blocks|:white_check_mark: OK|0|> 0|
 |New minor violations|:white_check_mark: OK|0|> 0|
 
 [View on SonarQube](https://host-url.com/dashboard?id=project-key)
-###### _(updated: 1/1/1970, 7:00:00 AM)_`;
+###### _updated: 1/1/1970, 08:31:00 (UTC+0)_`;
     expect(report).toBe(expectedReport);
   });
 });

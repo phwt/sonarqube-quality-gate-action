@@ -44,3 +44,25 @@ export const formatMetricKey = (metricKey: string) => {
 
 export const trimTrailingSlash = (value: string) =>
   value.endsWith("/") ? value.slice(0, -1) : value;
+
+/**
+ * Format number string into number string with decimal places if the value is float
+ * @param value number in string format
+ * @returns formatted number string
+ */
+export const formatStringNumber = (value: string) => {
+  const floatValue = parseFloat(value);
+  const isValueInteger = floatValue % 1 === 0;
+  return isValueInteger ? floatValue.toFixed(0) : floatValue.toFixed(2);
+};
+
+export const getCurrentDateTime = () => {
+  const currentDate = new Date();
+  const offset = -(currentDate.getTimezoneOffset() / 60);
+  const offsetSign = offset >= 0 ? "+" : "-";
+
+  return {
+    value: currentDate.toLocaleString(undefined, { hourCycle: "h23" }),
+    offset: `UTC${offsetSign}${Math.abs(offset)}`,
+  };
+};

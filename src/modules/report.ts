@@ -5,13 +5,15 @@ import {
   getStatusEmoji,
   getComparatorSymbol,
   trimTrailingSlash,
+  formatStringNumber,
+  getCurrentDateTime,
 } from "./utils";
 
 const buildRow = (condition: Condition) => {
   const rowValues = [
     formatMetricKey(condition.metricKey), // Metric
     getStatusEmoji(condition.status), // Status
-    condition.actualValue, // Value
+    formatStringNumber(condition.actualValue), // Value
     `${getComparatorSymbol(condition.comparator)} ${condition.errorThreshold}`, // Error Threshold
   ];
 
@@ -29,6 +31,8 @@ export const buildReport = (
 
   const resultTable = result.projectStatus.conditions.map(buildRow).join("\n");
 
+  const { value: updatedDate, offset: updatedOffset } = getCurrentDateTime();
+
   return `### SonarQube Quality Gate Result
 - **Result**: ${projectStatus}
 - Triggered by @${context.actor} on \`${context.eventName}\`
@@ -38,5 +42,5 @@ export const buildReport = (
 ${resultTable}
 
 [View on SonarQube](${projectURL})
-###### _(updated: ${new Date().toLocaleString()})_`;
+###### _updated: ${updatedDate} (${updatedOffset})_`;
 };
