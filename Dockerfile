@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:20-alpine
 
 COPY . .
 RUN npm install && npm install -g typescript
