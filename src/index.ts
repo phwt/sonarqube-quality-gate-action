@@ -15,12 +15,14 @@ import { findComment } from "./modules/find-comment/main";
       commentDisabled: core.getInput("disable-pr-comment") === "true",
       failOnQualityGateError:
         core.getInput("fail-on-quality-gate-error") === "true",
+      branch: core.getInput("branch"),
       githubToken: core.getInput("github-token"),
     };
 
     const result = await fetchQualityGate(
       inputs.hostURL,
       inputs.projectKey,
+      inputs.branch,
       inputs.token
     );
 
