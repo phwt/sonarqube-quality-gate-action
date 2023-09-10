@@ -19,14 +19,16 @@ import { findComment } from "./modules/find-comment/main";
       githubToken: core.getInput("github-token"),
     };
 
+    var result;
+
     if (!inputs.branch) {
-      const result = await fetchQualityGate(
+      result = await fetchQualityGate(
         inputs.hostURL,
         inputs.projectKey,
         inputs.token
       );
     } else {
-      const result = await fetchQualityGateWithBranch(
+      result = await fetchQualityGateWithBranch(
         inputs.hostURL,
         inputs.projectKey,
         inputs.branch,
