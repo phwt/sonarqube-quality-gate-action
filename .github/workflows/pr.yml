@@ -39,6 +39,7 @@ jobs:
           sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: feature/branches # TODO: use value from the PR branch
 
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
