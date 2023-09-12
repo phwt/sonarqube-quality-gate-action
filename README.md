@@ -4,31 +4,34 @@ Check quality gate result from latest analysis and report result in the pull req
 
 ![PR comment](https://user-images.githubusercontent.com/28344318/194283898-6f3f6466-d4a7-4f83-93a4-daef88b14777.png)
 
+<!-- Generated with `npx action-docs --update-readme` -->
+
+<!-- action-docs-inputs -->
+
 ## Inputs
 
-<!-- start inputs -->
+| parameter                  | description                                                                                             | required | default |
+| -------------------------- | ------------------------------------------------------------------------------------------------------- | -------- | ------- |
+| sonar-project-key          | SonarQube project key                                                                                   | `true`   |         |
+| sonar-host-url             | SonarQube server URL                                                                                    | `true`   |         |
+| sonar-token                | SonarQube token for retrieving quality gate result                                                      | `true`   |         |
+| github-token               | GitHub Token for commenting on the pull request - not required if `disable-pr-comment` is set to `true` | `false`  |         |
+| disable-pr-comment         | Disable commenting result on the pull request                                                           | `false`  | false   |
+| fail-on-quality-gate-error | Set the action status to failed when quality gate status is `ERROR`                                     | `false`  | false   |
+| branch                     | Branch name to retrieve the quality gate result                                                         | `false`  |         |
 
-| **Input**                        | **Description**                                                                                         | **Default** | **Required** |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------- | ------------ |
-| **`sonar-project-key`**          | SonarQube project key                                                                                   |             | **true**     |
-| **`sonar-host-url`**             | SonarQube server URL                                                                                    |             | **true**     |
-| **`sonar-token`**                | SonarQube token for retrieving quality gate result                                                      |             | **true**     |
-| **`github-token`**               | GitHub Token for commenting on the pull request - not required if `disable-pr-comment` is set to `true` |             | **false**    |
-| **`disable-pr-comment`**         | Disable commenting result on the pull request                                                           | `false`     | **false**    |
-| **`fail-on-quality-gate-error`** | Set the action status to failed when quality gate status is `ERROR`                                     | `false`     | **false**    |
+<!-- action-docs-inputs -->
 
-<!-- end inputs -->
+<!-- action-docs-outputs -->
 
 ## Outputs
 
-<!-- start outputs -->
+| parameter           | description                                             |
+| ------------------- | ------------------------------------------------------- |
+| project-status      | Project's quality gate status either as `OK` or `ERROR` |
+| quality-gate-result | Quality gate of the latest analysis in JSON format      |
 
-| **Output**            | **Description**                                           |
-| --------------------- | --------------------------------------------------------- |
-| `project-status`      | Project's quality gate status either as `OK` or `ERROR`   |
-| `quality-gate-result` | Quality gate result of the latest analysis in JSON format |
-
-<!-- end outputs -->
+<!-- action-docs-outputs -->
 
 ## Usage example
 
@@ -49,6 +52,7 @@ jobs:
           sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main # Optional input
 
       - name: Output result
         run: |
@@ -83,6 +87,7 @@ jobs:
           sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main # Optional input
 
       - name: Output result
         run: |
