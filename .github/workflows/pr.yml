@@ -27,7 +27,7 @@ jobs:
             -Dsonar.organization=phwt
             -Dsonar.projectKey=sonarqube-quality-gate-action
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
-            -Dsonar.branch.name=feature/branches
+            -Dsonar.branch.name=${{ github.event.pull_request.head.ref }}
 
       - name: Wait quality gate result
         run: sleep 5
@@ -40,7 +40,7 @@ jobs:
           sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: feature/branches # TODO: use value from the PR branch
+          branch: ${{ github.event.pull_request.head.ref }}
 
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
