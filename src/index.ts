@@ -2,10 +2,7 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { buildReport } from "./modules/report";
 import { ActionInputs } from "./modules/models";
-import {
-  fetchQualityGate,
-  fetchQualityGateWithBranch,
-} from "./modules/sonarqube-api";
+import { fetchQualityGate } from "./modules/sonarqube-api";
 import { trimTrailingSlash } from "./modules/utils";
 import { findComment } from "./modules/find-comment/main";
 
@@ -22,22 +19,12 @@ import { findComment } from "./modules/find-comment/main";
       githubToken: core.getInput("github-token"),
     };
 
-    var result;
-
-    if (!inputs.branch) {
-      result = await fetchQualityGate(
-        inputs.hostURL,
-        inputs.projectKey,
-        inputs.token
-      );
-    } else {
-      result = await fetchQualityGateWithBranch(
-        inputs.hostURL,
-        inputs.projectKey,
-        inputs.branch,
-        inputs.token
-      );
-    }
+    const result = await fetchQualityGate(
+      inputs.hostURL,
+      inputs.projectKey,
+      inputs.token,
+      inputs.branch
+    );
 
     core.setOutput("project-status", result.projectStatus.status);
     core.setOutput("quality-gate-result", JSON.stringify(result));
