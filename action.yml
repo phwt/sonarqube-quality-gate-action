@@ -22,7 +22,7 @@ inputs:
     required: false
     default: "false"
   branch:
-    description: "Branch name to be used in SonarQube"
+    description: "Branch name to retrieve the quality gate result"
     required: false
 outputs:
   project-status:
