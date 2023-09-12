@@ -27,6 +27,7 @@ jobs:
             -Dsonar.organization=phwt
             -Dsonar.projectKey=sonarqube-quality-gate-action
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+            -Dsonar.branch.name=feature/branches
 
       - name: Wait quality gate result
         run: sleep 5
