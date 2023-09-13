@@ -158,6 +158,7 @@ describe("buildReport", () => {
 
     const expectedReport = `### SonarQube Quality Gate Result
 - **Result**: :exclamation: Error
+- **Branch**: \`branch-name\`
 - Triggered by @me on \`pull_request\`
 
 | Metric | Status | Value | Error Threshold |

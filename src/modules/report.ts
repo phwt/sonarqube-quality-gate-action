@@ -39,7 +39,7 @@ export const buildReport = (
   const { value: updatedDate, offset: updatedOffset } = getCurrentDateTime();
 
   return `### SonarQube Quality Gate Result
-- **Result**: ${projectStatus}
+- **Result**: ${projectStatus}${branch ? `\n- **Branch**: \`${branch}\`` : ""}
 - Triggered by @${context.actor} on \`${context.eventName}\`
 
 | Metric | Status | Value | Error Threshold |
