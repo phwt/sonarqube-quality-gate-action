@@ -1,5 +1,7 @@
 # SonarQube Quality Gate Check
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sonarqube-quality-gate-action&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sonarqube-quality-gate-action)
+
 Check quality gate result from latest analysis and report result in the pull request's comment.
 
 ![PR comment](https://user-images.githubusercontent.com/28344318/194283898-6f3f6466-d4a7-4f83-93a4-daef88b14777.png)
