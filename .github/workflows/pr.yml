@@ -17,6 +17,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/setup-node@v3
+        with:
+          cache: npm
+
+      - name: Install dependencies and run test
+        run: |
+          npm ci
+          npm test
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
