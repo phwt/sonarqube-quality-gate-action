@@ -24,9 +24,14 @@ export const buildReport = (
   result: QualityGate,
   hostURL: string,
   projectKey: string,
-  context: Context
+  context: Context,
+  branch?: string
 ) => {
-  const projectURL = trimTrailingSlash(hostURL) + `/dashboard?id=${projectKey}`;
+  const projectURL =
+    trimTrailingSlash(hostURL) +
+    `/dashboard?id=${projectKey}` +
+    (branch ? `&branch=${encodeURIComponent(branch)}` : "");
+
   const projectStatus = getStatusEmoji(result.projectStatus.status);
 
   const resultTable = result.projectStatus.conditions.map(buildRow).join("\n");
