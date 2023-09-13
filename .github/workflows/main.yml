@@ -1,7 +1,9 @@
-name: Check code quality on pull request
+name: Check code quality
 
 on:
-  pull_request:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 env:
@@ -10,7 +12,7 @@ env:
 
 jobs:
   sonar-scan:
-    name: Check code quality on pull request branch
+    name: SonarCloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,35 +29,11 @@ jobs:
             -Dsonar.organization=phwt
             -Dsonar.projectKey=sonarqube-quality-gate-action
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
-            -Dsonar.branch.name=${{ github.event.pull_request.head.ref }}
 
       - name: Wait for the quality gate result
         run: sleep 5
 
-      - name: Create a comment with the result
-        uses: ./
-        id: quality-gate-check
-        with:
-          sonar-host-url: ${{ env.SONAR_HOST_URL }}
-          sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.event.pull_request.head.ref }}
-          fail-on-quality-gate-error: true
-
-      - run: |
-          echo "${{ steps.quality-gate-check.outputs.project-status }}"
-          echo "${{ steps.quality-gate-check.outputs.quality-gate-result }}"
-
-  sonar-scan-main:
-    name: Retrieve quality gate result of the main branch
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Retrieve quality gate result
+      - name: Verify the quality gate result
         uses: ./
         id: quality-gate-check
         with:
@@ -63,6 +41,7 @@ jobs:
           sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           disable-pr-comment: true
+          fail-on-quality-gate-error: true
 
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"

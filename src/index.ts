@@ -45,7 +45,8 @@ import { findComment } from "./modules/find-comment/main";
         result,
         inputs.hostURL,
         inputs.projectKey,
-        context
+        context,
+        inputs.branch
       );
 
       console.log("Finding comment associated with the report...");
