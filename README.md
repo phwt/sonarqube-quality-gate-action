@@ -21,6 +21,7 @@ Check quality gate result from latest analysis and report result in the pull req
 | disable-pr-comment         | Disable commenting result on the pull request                                                           | `false`  | false   |
 | fail-on-quality-gate-error | Set the action status to failed when quality gate status is `ERROR`                                     | `false`  | false   |
 | branch                     | Branch name to retrieve the quality gate result                                                         | `false`  |         |
+| pullRequest                | Pull request id to retrieve the quality gate result                                                     | `false`  |         |
 
 <!-- action-docs-inputs -->
 
@@ -55,6 +56,7 @@ jobs:
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           branch: main # Optional input
+          pullRequest: 8 # Optional input
 
       - name: Output result
         run: |
@@ -90,6 +92,7 @@ jobs:
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           branch: main # Optional input
+          pullRequest: 8 # Optional input
 
       - name: Output result
         run: |
