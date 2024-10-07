@@ -86,6 +86,7 @@ jobs:
             -Dsonar.projectKey=sonarqube-quality-gate-action
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
             -Dsonar.pullrequest.key=${{ github.event.number }}
+            -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }}
             -Dsonar.cpd.exclusions=**/__tests__/*.ts
 
       - name: Wait for the quality gate result
