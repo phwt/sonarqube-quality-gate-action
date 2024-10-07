@@ -32,5 +32,6 @@ export interface ActionInputs {
   commentDisabled?: boolean;
   failOnQualityGateError?: boolean;
   branch?: string;
+  pullRequest?: string;
   githubToken?: string;
 }

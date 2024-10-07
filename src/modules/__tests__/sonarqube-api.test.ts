@@ -32,7 +32,7 @@ describe("fetchQualityGate", () => {
     );
   });
 
-  it("should make a GET request to the correct URL with `projectKey` and `pullRequest` parameter when `pullRequest` is defined", async () => {
+  it("should make a GET request to the correct URL with `projectKey` and `pullRequest` parameter when `pull-request` is defined", async () => {
     (axios.get as jest.Mock).mockResolvedValue({});
 
     await fetchQualityGate(

@@ -24,7 +24,7 @@ inputs:
   branch:
     description: "Branch name to retrieve the quality gate result"
     required: false
-  pullRequest:
+  pull-request:
     description: "Pull request id to retrieve the quality gate result"
     required: false
 outputs:
