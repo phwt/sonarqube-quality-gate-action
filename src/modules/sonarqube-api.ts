@@ -10,7 +10,7 @@ export const fetchQualityGate = async (
 ): Promise<QualityGate> => {
   if (branch && pullRequest) {
     throw new Error(
-      "The `branch` and `pull-request` input are mutually exclusive and cannot be used at the same time"
+      "The `branch` and `pull-request` inputs are mutually exclusive and cannot be used together"
     );
   }
 
