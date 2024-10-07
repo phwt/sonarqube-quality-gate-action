@@ -8,6 +8,12 @@ export const fetchQualityGate = async (
   branch?: string,
   pullRequest?: string
 ): Promise<QualityGate> => {
+  if (branch && pullRequest) {
+    throw new Error(
+      "The `branch` and `pull-request` input are mutually exclusive and cannot be used at the same time"
+    );
+  }
+
   // Only include `branch` or `pullRequest` in the params object if they are defined
   const params = {
     projectKey,

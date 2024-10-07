@@ -51,4 +51,21 @@ describe("fetchQualityGate", () => {
       }
     );
   });
+
+  it("should thrown an error when both `branch` and `pull-request` are defined", async () => {
+    (axios.get as jest.Mock).mockResolvedValue({});
+
+    const fetchQualityGateFunction = async () => {
+      await fetchQualityGate(
+        "https://example.com",
+        "key",
+        "token",
+        "branch",
+        "pull-request"
+      );
+    };
+
+    await expect(fetchQualityGateFunction).rejects.toThrow();
+    expect(axios.get).not.toHaveBeenCalled();
+  });
 });
