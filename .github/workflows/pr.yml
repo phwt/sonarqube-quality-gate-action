@@ -102,6 +102,17 @@ jobs:
           pull-request: ${{ github.event.number }}
           disable-pr-comment: true
 
+      - name: Retrieve quality gate result
+        uses: ./
+        id: quality-gate-check-test-fail
+        with:
+          sonar-host-url: ${{ env.SONAR_HOST_URL }}
+          sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          branch: ${{ github.event.pull_request.head.ref }}
+          pull-request: ${{ github.event.number }}
+          disable-pr-comment: true
+
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
           echo "${{ steps.quality-gate-check.outputs.quality-gate-result }}"
