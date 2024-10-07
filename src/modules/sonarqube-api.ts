@@ -5,9 +5,15 @@ export const fetchQualityGate = async (
   url: string,
   projectKey: string,
   token: string,
-  branch?: string
+  branch?: string,
+  pullRequest?: string
 ): Promise<QualityGate> => {
-  const params = branch ? { projectKey, branch } : { projectKey };
+  // Only include `branch` or `pullRequest` in the params object if they are defined
+  const params = {
+    projectKey,
+    ...(branch && { branch }),
+    ...(pullRequest && { pullRequest }),
+  };
 
   const response = await axios.get<QualityGate>(
     `${url}/api/qualitygates/project_status`,

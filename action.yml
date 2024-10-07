@@ -24,6 +24,9 @@ inputs:
   branch:
     description: "Branch name to retrieve the quality gate result"
     required: false
+  pullRequest:
+    description: "Pull request id to retrieve the quality gate result"
+    required: false
 outputs:
   project-status:
     description: "Project's quality gate status either as `OK` or `ERROR`"
