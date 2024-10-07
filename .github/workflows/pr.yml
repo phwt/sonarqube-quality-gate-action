@@ -9,7 +9,7 @@ env:
   SONAR_PROJECT_KEY: sonarqube-quality-gate-action
 
 jobs:
-  sonar-scan:
+  sonar-scan-branch:
     name: Check code quality on pull request branch
     runs-on: ubuntu-latest
     steps:
@@ -52,6 +52,55 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.event.pull_request.head.ref }}
           fail-on-quality-gate-error: true
+
+      - run: |
+          echo "${{ steps.quality-gate-check.outputs.project-status }}"
+          echo "${{ steps.quality-gate-check.outputs.quality-gate-result }}"
+
+  sonar-scan-pr:
+    name: Check code quality on the pull request
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          cache: npm
+
+      - name: Install dependencies and run test
+        run: |
+          npm ci
+          npm test
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=phwt
+            -Dsonar.projectKey=sonarqube-quality-gate-action
+            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+            -Dsonar.pullrequest.key=${{ github.event.number }}
+            -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }}
+            -Dsonar.cpd.exclusions=**/__tests__/*.ts
+
+      - name: Wait for the quality gate result
+        run: sleep 5
+
+      - name: Retrieve quality gate result
+        uses: ./
+        id: quality-gate-check
+        with:
+          sonar-host-url: ${{ env.SONAR_HOST_URL }}
+          sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          pull-request: ${{ github.event.number }}
+          disable-pr-comment: true
 
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"

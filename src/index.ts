@@ -16,6 +16,7 @@ import { findComment } from "./modules/find-comment/main";
       failOnQualityGateError:
         core.getInput("fail-on-quality-gate-error") === "true",
       branch: core.getInput("branch"),
+      pullRequest: core.getInput("pull-request"),
       githubToken: core.getInput("github-token"),
     };
 
@@ -23,7 +24,8 @@ import { findComment } from "./modules/find-comment/main";
       inputs.hostURL,
       inputs.projectKey,
       inputs.token,
-      inputs.branch
+      inputs.branch,
+      inputs.pullRequest
     );
 
     core.setOutput("project-status", result.projectStatus.status);

@@ -20,7 +20,8 @@ Check quality gate result from latest analysis and report result in the pull req
 | github-token               | GitHub Token for commenting on the pull request - not required if `disable-pr-comment` is set to `true` | `false`  |         |
 | disable-pr-comment         | Disable commenting result on the pull request                                                           | `false`  | false   |
 | fail-on-quality-gate-error | Set the action status to failed when quality gate status is `ERROR`                                     | `false`  | false   |
-| branch                     | Branch name to retrieve the quality gate result                                                         | `false`  |         |
+| branch                     | Branch name to retrieve the quality gate result, mutually exclusive with `pull-request` input           | `false`  |         |
+| pull-request               | Pull request id to retrieve the quality gate result, mutually exclusive with `branch` input             | `false`  |         |
 
 <!-- action-docs-inputs -->
 
@@ -54,7 +55,8 @@ jobs:
           sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main # Optional input
+          branch: main # Optional input, mutually exclusive with `pull-request`
+          pull-request: 8 # Optional input, mutually exclusive with `branch`
 
       - name: Output result
         run: |
@@ -89,7 +91,8 @@ jobs:
           sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main # Optional input
+          branch: main # Optional input, mutually exclusive with `pull-request`
+          pull-request: 8 # Optional input, mutually exclusive with `branch`
 
       - name: Output result
         run: |

@@ -22,7 +22,10 @@ inputs:
     required: false
     default: "false"
   branch:
-    description: "Branch name to retrieve the quality gate result"
+    description: "Branch name to retrieve the quality gate result, mutually exclusive with `pull-request` input"
+    required: false
+  pull-request:
+    description: "Pull request id to retrieve the quality gate result, mutually exclusive with `branch` input"
     required: false
 outputs:
   project-status:
