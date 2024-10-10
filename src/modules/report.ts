@@ -20,6 +20,32 @@ const buildRow = (condition: Condition) => {
   return "|" + rowValues.join("|") + "|";
 };
 
+/**
+ * Constructs a SonarQube report URL based on the provided parameters.
+ *
+ * @param hostUrl - The base URL of the SonarQube server.
+ * @param projectKey - The unique key of the project in SonarQube.
+ * @param branch - (Optional) The branch name to include in the report URL.
+ * @param pullRequest - (Optional) The pull request identifier to include in the report URL.
+ * @returns The constructed SonarQube report URL.
+ */
+const buildReportUrl = (
+  hostUrl: string,
+  projectKey: string,
+  branch?: string,
+  pullRequest?: string
+) => {
+  const baseUrl = `${trimTrailingSlash(hostUrl)}/dashboard`;
+
+  const urlParams = new URLSearchParams({
+    id: projectKey,
+    ...(branch && { branch }),
+    ...(pullRequest && { pullRequest }),
+  });
+
+  return `${baseUrl}?${urlParams}`;
+};
+
 export const buildReport = (
   result: QualityGate,
   hostURL: string,
@@ -28,28 +54,27 @@ export const buildReport = (
   branch?: string,
   pullRequest?: string
 ) => {
-  const projectURL =
-    trimTrailingSlash(hostURL) +
-    `/dashboard?id=${projectKey}` +
-    (pullRequest ? `&pullRequest=${pullRequest}` : "") +
-    (branch ? `&branch=${encodeURIComponent(branch)}` : "");
-
+  const reportUrl = buildReportUrl(hostURL, projectKey, branch, pullRequest);
   const projectStatus = getStatusEmoji(result.projectStatus.status);
 
   const resultTable = result.projectStatus.conditions.map(buildRow).join("\n");
 
   const { value: updatedDate, offset: updatedOffset } = getCurrentDateTime();
 
+  const resultContext = [
+    `- **Result**: ${projectStatus}`,
+    ...(branch ? [`- **Branch**: \`${branch}\``] : []),
+    ...(pullRequest ? [`- **Pull Request**: #${pullRequest}`] : []),
+    `- Triggered by @${context.actor} on \`${context.eventName}\``,
+  ];
+
   return `### SonarQube Quality Gate Result
-- **Result**: ${projectStatus}${branch ? `\n- **Branch**: \`${branch}\`` : ""}${
-    pullRequest ? `\n- **PR**: \`${pullRequest}\`` : ""
-  }
-- Triggered by @${context.actor} on \`${context.eventName}\`
+${resultContext.join("\n")}
 
 | Metric | Status | Value | Error Threshold |
 |:------:|:------:|:-----:|:---------------:|
 ${resultTable}
 
-[View on SonarQube](${projectURL})
+[View on SonarQube](${reportUrl})
 ###### _updated: ${updatedDate} (${updatedOffset})_`;
 };

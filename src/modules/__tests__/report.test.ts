@@ -178,7 +178,7 @@ describe("buildReport", () => {
       pullRequest
     );
 
-    expect(report).toContain("- **PR**: `12`");
+    expect(report).toContain("- **Pull Request**: #12");
     expect(report).toContain(
       "[View on SonarQube](https://host-url.com/dashboard?id=project-key&pullRequest=12)"
     );
