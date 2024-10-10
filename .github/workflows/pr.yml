@@ -6,8 +6,8 @@ on:
 
 env:
   SONAR_HOST_URL: https://sonarcloud.io
-  SONAR_PROJECT_KEY: S1riU5_sonarqube-quality-gate-action
-  SONAR_ORGANIZATION: s1riu5
+  SONAR_PROJECT_KEY: sonarqube-quality-gate-action
+  SONAR_ORGANIZATION: phwt
 
 jobs:
   sonar-scan-branch:
