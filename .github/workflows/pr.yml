@@ -50,9 +50,8 @@ jobs:
           sonar-host-url: ${{ env.SONAR_HOST_URL }}
           sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.event.pull_request.head.ref }}
-          fail-on-quality-gate-error: true
+          disable-pr-comment: true
 
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
@@ -101,7 +100,8 @@ jobs:
           sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           pull-request: ${{ github.event.number }}
-          disable-pr-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-quality-gate-error: true
 
       - run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
