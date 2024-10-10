@@ -113,8 +113,11 @@ const context: Context = {
 };
 
 describe("buildReport", () => {
-  test("should build report", () => {
+  beforeEach(() => {
     timezone_mock.register("UTC");
+  });
+
+  test("should build report", () => {
     const hostURL = "https://host-url.com/";
     const projectKey = "project-key";
 
@@ -142,8 +145,7 @@ describe("buildReport", () => {
     expect(report).toBe(expectedReport);
   });
 
-  test("should build report with report link including branch parameter when branch is defined", () => {
-    timezone_mock.register("UTC");
+  test("should build report with report link including a `branch` parameter when `branch` is defined", () => {
     const hostURL = "https://host-url.com/";
     const projectKey = "project-key";
     const branch = "branch-name";
@@ -156,26 +158,29 @@ describe("buildReport", () => {
       branch
     );
 
-    const expectedReport = `### SonarQube Quality Gate Result
-- **Result**: :exclamation: Error
-- **Branch**: \`branch-name\`
-- Triggered by @me on \`pull_request\`
+    expect(report).toContain("- **Branch**: `branch-name`");
+    expect(report).toContain(
+      "[View on SonarQube](https://host-url.com/dashboard?id=project-key&branch=branch-name)"
+    );
+  });
 
-| Metric | Status | Value | Error Threshold |
-|:------:|:------:|:-----:|:---------------:|
-|Reliability rating|:exclamation: Error|4|> 1|
-|Security rating|:exclamation: Error|2|> 1|
-|Sqale rating|:white_check_mark: OK|1|> 1|
-|Blocker violations|:exclamation: Error|53|> 0|
-|Critical violations|:exclamation: Error|45|> 0|
-|Line coverage|:exclamation: Error|10.10|< 80|
-|Major violations|:exclamation: Error|1168|> 0|
-|Minor violations|:exclamation: Error|81|> 30|
-|New duplicated blocks|:white_check_mark: OK|0|> 0|
-|New minor violations|:white_check_mark: OK|0|> 0|
+  test("should build report with report link including a `pullRequest` parameter when `pullRequest` is defined", () => {
+    const hostURL = "https://host-url.com/";
+    const projectKey = "project-key";
+    const pullRequest = "12";
 
-[View on SonarQube](https://host-url.com/dashboard?id=project-key&branch=branch-name)
-###### _updated: 1/1/1970, 08:31:00 (UTC+0)_`;
-    expect(report).toBe(expectedReport);
+    const report = buildReport(
+      qualityGate,
+      hostURL,
+      projectKey,
+      context,
+      undefined,
+      pullRequest
+    );
+
+    expect(report).toContain("- **Pull Request**: #12");
+    expect(report).toContain(
+      "[View on SonarQube](https://host-url.com/dashboard?id=project-key&pullRequest=12)"
+    );
   });
 });

@@ -8,6 +8,7 @@ on:
 
 env:
   SONAR_HOST_URL: https://sonarcloud.io
+  SONAR_ORGANIZATION: phwt
   SONAR_PROJECT_KEY: sonarqube-quality-gate-action
 
 jobs:
@@ -35,8 +36,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=phwt
-            -Dsonar.projectKey=sonarqube-quality-gate-action
+            -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
             -Dsonar.cpd.exclusions=**/__tests__/*.ts
 
