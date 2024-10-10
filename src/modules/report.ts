@@ -31,7 +31,7 @@ export const buildReport = (
   const projectURL =
     trimTrailingSlash(hostURL) +
     `/dashboard?id=${projectKey}` +
-      (pullRequest ? `&pullRequest=${pullRequest}`: "" ) +
+    (pullRequest ? `&pullRequest=${pullRequest}` : "") +
     (branch ? `&branch=${encodeURIComponent(branch)}` : "");
 
   const projectStatus = getStatusEmoji(result.projectStatus.status);
@@ -41,7 +41,9 @@ export const buildReport = (
   const { value: updatedDate, offset: updatedOffset } = getCurrentDateTime();
 
   return `### SonarQube Quality Gate Result
-- **Result**: ${projectStatus}${branch ? `\n- **Branch**: \`${branch}\`` : ""}${pullRequest ? `\n- **PR**: \`${pullRequest}\`` : ""}
+- **Result**: ${projectStatus}${branch ? `\n- **Branch**: \`${branch}\`` : ""}${
+    pullRequest ? `\n- **PR**: \`${pullRequest}\`` : ""
+  }
 - Triggered by @${context.actor} on \`${context.eventName}\`
 
 | Metric | Status | Value | Error Threshold |
