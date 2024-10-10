@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/phwt/sonarqube-quality-gate-action.git"
+    "url": "git+https://github.com/S1riU5/sonarqube-quality-gate-action.git"
   },
-  "author": "phwt.smwt",
+  "author": "S1riU5.smwt",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/phwt/sonarqube-quality-gate-action/issues"
+    "url": "https://github.com/S1riU5/sonarqube-quality-gate-action/issues"
   },
-  "homepage": "https://github.com/phwt/sonarqube-quality-gate-action#readme",
+  "homepage": "https://github.com/S1riU5/sonarqube-quality-gate-action#readme",
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/github": "^5.1.1",

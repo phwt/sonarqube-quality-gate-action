@@ -48,7 +48,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: phwt/sonarqube-quality-gate-action@v1
+      - uses: S1riU5/sonarqube-quality-gate-action@v1
         id: quality-gate-check
         with:
           sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
@@ -84,7 +84,7 @@ jobs:
       - name: Wait for the quality gate result
         run: sleep 5
 
-      - uses: phwt/sonarqube-quality-gate-action@v1
+      - uses: S1riU5/sonarqube-quality-gate-action@v1
         id: quality-gate-check
         with:
           sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
