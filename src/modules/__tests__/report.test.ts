@@ -113,8 +113,11 @@ const context: Context = {
 };
 
 describe("buildReport", () => {
-  test("should build report", () => {
+  beforeEach(() => {
     timezone_mock.register("UTC");
+  });
+
+  test("should build report", () => {
     const hostURL = "https://host-url.com/";
     const projectKey = "project-key";
 
@@ -142,8 +145,7 @@ describe("buildReport", () => {
     expect(report).toBe(expectedReport);
   });
 
-  test("should build report with report link including branch parameter when branch is defined", () => {
-    timezone_mock.register("UTC");
+  test("should build report with report link including a `branch` parameter when `branch` is defined", () => {
     const hostURL = "https://host-url.com/";
     const projectKey = "project-key";
     const branch = "branch-name";
@@ -161,8 +163,7 @@ describe("buildReport", () => {
     );
   });
 
-  test("should build report with report link including pull request parameter when pullrequest is defined", () => {
-    timezone_mock.register("UTC");
+  test("should build report with report link including a `pullRequest` parameter when `pullRequest` is defined", () => {
     const hostURL = "https://host-url.com/";
     const projectKey = "project-key";
     const pullRequest = "12";

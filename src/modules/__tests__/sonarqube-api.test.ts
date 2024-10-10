@@ -32,7 +32,7 @@ describe("fetchQualityGate", () => {
     );
   });
 
-  it("should make a GET request to the correct URL with `projectKey` and `pullRequest` parameter when `pull-request` is defined", async () => {
+  it("should make a GET request to the correct URL with `projectKey` and `pullRequest` parameter when `pullRequest` is defined", async () => {
     (axios.get as jest.Mock).mockResolvedValue({});
 
     await fetchQualityGate(
@@ -52,7 +52,7 @@ describe("fetchQualityGate", () => {
     );
   });
 
-  it("should thrown an error when both `branch` and `pull-request` are defined", async () => {
+  it("should thrown an error when both `branch` and `pullRequest` are defined", async () => {
     (axios.get as jest.Mock).mockResolvedValue({});
 
     const fetchQualityGateFunction = async () => {
