@@ -6,8 +6,8 @@ on:
 
 env:
   SONAR_HOST_URL: https://sonarcloud.io
-  SONAR_PROJECT_KEY: sonarqube-quality-gate-action
   SONAR_ORGANIZATION: phwt
+  SONAR_PROJECT_KEY: sonarqube-quality-gate-action
 
 jobs:
   sonar-scan-branch:
@@ -34,8 +34,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=${{env.SONAR_ORGANIZATION}}
-            -Dsonar.projectKey=${{env.SONAR_PROJECT_KEY}}
+            -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
             -Dsonar.branch.name=${{ github.event.pull_request.head.ref }}
             -Dsonar.cpd.exclusions=**/__tests__/*.ts
@@ -83,8 +83,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=${{env.SONAR_ORGANIZATION}}
-            -Dsonar.projectKey=${{env.SONAR_PROJECT_KEY}}
+            -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
             -Dsonar.pullrequest.key=${{ github.event.number }}
             -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }}
