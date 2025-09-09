@@ -30,6 +30,7 @@ export interface ActionInputs {
   projectKey: string;
   token: string;
   commentDisabled?: boolean;
+  stepSummaryDisabled?: boolean;
   failOnQualityGateError?: boolean;
   branch?: string;
   pullRequest?: string;

@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { buildReport } from "./modules/report";
+import { buildReport, buildSummary } from "./modules/report";
 import { ActionInputs } from "./modules/models";
 import { fetchQualityGate } from "./modules/sonarqube-api";
 import { trimTrailingSlash } from "./modules/utils";
@@ -13,6 +13,7 @@ import { findComment } from "./modules/find-comment/main";
       projectKey: core.getInput("sonar-project-key"),
       token: core.getInput("sonar-token"),
       commentDisabled: core.getInput("disable-pr-comment") === "true",
+      stepSummaryDisabled: core.getInput("disable-step-summary") === "true",
       failOnQualityGateError:
         core.getInput("fail-on-quality-gate-error") === "true",
       branch: core.getInput("branch"),
@@ -31,27 +32,31 @@ import { findComment } from "./modules/find-comment/main";
     core.setOutput("project-status", result.projectStatus.status);
     core.setOutput("quality-gate-result", JSON.stringify(result));
 
+    if (!inputs.githubToken) {
+      throw new Error(
+        "`inputs.github-token` is required for result comment creation."
+      );
+    }
+    const { context } = github;
+    const octokit = github.getOctokit(inputs.githubToken);
+
+    const reportBody = buildReport(
+      result,
+      inputs.hostURL,
+      inputs.projectKey,
+      context,
+      inputs.branch,
+      inputs.pullRequest
+    );
+
+    if (!inputs.stepSummaryDisabled) {
+      console.log("Adding report to the step summary...");
+      buildSummary(reportBody);
+    }
+
     const isPR = github.context.eventName == "pull_request";
 
     if (isPR && !inputs.commentDisabled) {
-      if (!inputs.githubToken) {
-        throw new Error(
-          "`inputs.github-token` is required for result comment creation."
-        );
-      }
-
-      const { context } = github;
-      const octokit = github.getOctokit(inputs.githubToken);
-
-      const reportBody = buildReport(
-        result,
-        inputs.hostURL,
-        inputs.projectKey,
-        context,
-        inputs.branch,
-        inputs.pullRequest
-      );
-
       console.log("Finding comment associated with the report...");
 
       const issueComment = await findComment({

@@ -1,5 +1,6 @@
 import { Context } from "@actions/github/lib/context";
 import { Condition, QualityGate } from "./models";
+import * as fs from "fs";
 import {
   formatMetricKey,
   getStatusEmoji,
@@ -78,3 +79,21 @@ ${resultTable}
 [View on SonarQube](${reportUrl})
 ###### _updated: ${updatedDate} (${updatedOffset})_`;
 };
+
+export const buildSummary = (
+  reportBody: string,
+) => {
+  const summaryFilePath = process.env.GITHUB_STEP_SUMMARY;
+
+  if (!summaryFilePath) {
+    throw new Error("GITHUB_STEP_SUMMARY is not defined.");
+  }
+
+  try {
+    fs.appendFileSync(summaryFilePath, reportBody + "\n");
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to write to GITHUB_STEP_SUMMARY: ${error.message}`);
+    }
+  }
+}
