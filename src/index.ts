@@ -54,8 +54,13 @@ import { findComment } from "./modules/find-comment/main";
 
       console.log("Finding comment associated with the report...");
 
-      const githubUsername = (await octokit.rest.users.getAuthenticated()).data
-        .login;
+      const githubUsername = await (async () => {
+        try {
+          return (await octokit.rest.users.getAuthenticated()).data.login;
+        } catch (error) {
+          return "github-actions[bot]";
+        }
+      })();
 
       console.log(`Authenticated as GitHub user: ${githubUsername}`);
 
