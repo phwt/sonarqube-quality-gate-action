@@ -100,7 +100,7 @@ jobs:
           sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           pull-request: ${{ github.event.number }}
-          github-token: ${{ secrets.YOUR_TOKEN_HERE }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           fail-on-quality-gate-error: true
 
       - run: |
