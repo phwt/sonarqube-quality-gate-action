@@ -57,7 +57,7 @@ import { findComment } from "./modules/find-comment/main";
       const githubUsername = await (async () => {
         try {
           return (await octokit.rest.users.getAuthenticated()).data.login;
-        } catch (error) {
+        } catch {
           return "github-actions[bot]";
         }
       })();
