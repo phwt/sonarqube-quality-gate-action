@@ -54,11 +54,16 @@ import { findComment } from "./modules/find-comment/main";
 
       console.log("Finding comment associated with the report...");
 
+      const githubUsername = (await octokit.rest.users.getAuthenticated()).data
+        .login;
+
+      console.log(`Authenticated as GitHub user: ${githubUsername}`);
+
       const issueComment = await findComment({
         token: inputs.githubToken,
         repository: `${context.repo.owner}/${context.repo.repo}`,
         issueNumber: context.issue.number,
-        commentAuthor: "github-actions[bot]",
+        commentAuthor: githubUsername,
         bodyIncludes: "SonarQube Quality Gate Result",
         direction: "first",
       });
