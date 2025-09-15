@@ -1,10 +1,10 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { buildReport, buildSummary } from "./modules/report";
 import { ActionInputs } from "./modules/models";
+import { commentResult } from "./modules/comment";
+import { addSummary } from "./modules/summary";
 import { fetchQualityGate } from "./modules/sonarqube-api";
 import { trimTrailingSlash } from "./modules/utils";
-import { findComment } from "./modules/find-comment/main";
 
 (async () => {
   try {
@@ -32,62 +32,14 @@ import { findComment } from "./modules/find-comment/main";
     core.setOutput("project-status", result.projectStatus.status);
     core.setOutput("quality-gate-result", JSON.stringify(result));
 
-    if (!inputs.githubToken) {
-      throw new Error(
-        "`inputs.github-token` is required for result comment creation."
-      );
+    const isPR = github.context.eventName == "pull_request";
+    if (isPR && !inputs.commentDisabled) {
+      await commentResult({ inputs, result, github });
     }
-    const { context } = github;
-    const octokit = github.getOctokit(inputs.githubToken);
-
-    const reportBody = buildReport(
-      result,
-      inputs.hostURL,
-      inputs.projectKey,
-      context,
-      inputs.branch,
-      inputs.pullRequest
-    );
 
     if (!inputs.stepSummaryDisabled) {
       console.log("Adding report to the step summary...");
-      buildSummary(reportBody);
-    }
-
-    const isPR = github.context.eventName == "pull_request";
-
-    if (isPR && !inputs.commentDisabled) {
-      console.log("Finding comment associated with the report...");
-
-      const issueComment = await findComment({
-        token: inputs.githubToken,
-        repository: `${context.repo.owner}/${context.repo.repo}`,
-        issueNumber: context.issue.number,
-        commentAuthor: "github-actions[bot]",
-        bodyIncludes: "SonarQube Quality Gate Result",
-        direction: "first",
-      });
-
-      if (issueComment) {
-        console.log("Found existing comment, updating with the latest report.");
-
-        await octokit.rest.issues.updateComment({
-          owner: context.repo.owner,
-          repo: context.repo.repo,
-          issue_number: context.issue.number,
-          comment_id: issueComment.id,
-          body: reportBody,
-        });
-      } else {
-        console.log("Report comment does not exist, creating a new one.");
-
-        await octokit.rest.issues.createComment({
-          owner: context.repo.owner,
-          repo: context.repo.repo,
-          issue_number: context.issue.number,
-          body: reportBody,
-        });
-      }
+      await addSummary({ inputs, result, github });
     }
 
     let resultMessage = `Quality gate status for \`${inputs.projectKey}\` returned \`${result.projectStatus.status}\``;
