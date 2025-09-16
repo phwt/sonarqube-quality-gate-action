@@ -2,6 +2,7 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { ActionInputs } from "./modules/models";
 import { commentResult } from "./modules/comment";
+import { addSummary } from "./modules/summary";
 import { fetchQualityGate } from "./modules/sonarqube-api";
 import { trimTrailingSlash } from "./modules/utils";
 
@@ -12,6 +13,7 @@ import { trimTrailingSlash } from "./modules/utils";
       projectKey: core.getInput("sonar-project-key"),
       token: core.getInput("sonar-token"),
       commentDisabled: core.getInput("disable-pr-comment") === "true",
+      stepSummaryDisabled: core.getInput("disable-step-summary") === "true",
       failOnQualityGateError:
         core.getInput("fail-on-quality-gate-error") === "true",
       branch: core.getInput("branch"),
@@ -33,6 +35,11 @@ import { trimTrailingSlash } from "./modules/utils";
     const isPR = github.context.eventName == "pull_request";
     if (isPR && !inputs.commentDisabled) {
       await commentResult({ inputs, result, github });
+    }
+
+    if (!inputs.stepSummaryDisabled) {
+      console.log("Adding report to the step summary...");
+      await addSummary({ inputs, result, github });
     }
 
     let resultMessage = `Quality gate status for \`${inputs.projectKey}\` returned \`${result.projectStatus.status}\``;
