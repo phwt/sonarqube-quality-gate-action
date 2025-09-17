@@ -19,7 +19,7 @@ Check quality gate result from latest analysis and report result in the pull req
 | sonar-token                | SonarQube token for retrieving quality gate result                                                      | `true`   |         |
 | github-token               | GitHub Token for commenting on the pull request - not required if `disable-pr-comment` is set to `true` | `false`  |         |
 | disable-pr-comment         | Disable commenting result on the pull request                                                           | `false`  | false   |
-| disable-step-summary       | Disable commenting result on the workflow step summary                                                  | `false`  | true    |
+| disable-step-summary       | Disable commenting result on the workflow step summary                                                  | `false`  | false   |
 | fail-on-quality-gate-error | Set the action status to failed when quality gate status is `ERROR`                                     | `false`  | false   |
 | branch                     | Branch name to retrieve the quality gate result, mutually exclusive with `pull-request` input           | `false`  |         |
 | pull-request               | Pull request id to retrieve the quality gate result, mutually exclusive with `branch` input             | `false`  |         |
