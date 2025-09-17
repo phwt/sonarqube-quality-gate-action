@@ -38,7 +38,6 @@ import { trimTrailingSlash } from "./modules/utils";
     }
 
     if (!inputs.stepSummaryDisabled) {
-      console.log("Adding report to the step summary...");
       await addSummary({ inputs, result, github });
     }
 

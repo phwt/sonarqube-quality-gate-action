@@ -11,7 +11,6 @@ export const addSummary = async ({
   result: QualityGate;
   github: typeof import("@actions/github");
 }) => {
-
   const { context } = github;
 
   const reportBody = buildReport(
@@ -23,22 +22,18 @@ export const addSummary = async ({
     inputs.pullRequest
   );
 
-  console.log("Adding summary to the report");
+  console.log("Adding report to the step summary...");
   const summaryFilePath = process.env.GITHUB_STEP_SUMMARY;
 
-  if (!summaryFilePath) {
-    throw new Error("GITHUB_STEP_SUMMARY is not defined.");
-  }
+  if (!summaryFilePath) throw new Error("GITHUB_STEP_SUMMARY is not defined.");
 
   try {
     fs.appendFileSync(summaryFilePath, reportBody + "\n");
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(`Failed to write to GITHUB_STEP_SUMMARY: ${error.message}`);
+      throw new Error(
+        `Failed to write to GITHUB_STEP_SUMMARY: ${error.message}`
+      );
     }
   }
 };
-
-
-
-
