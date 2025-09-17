@@ -14,11 +14,11 @@ inputs:
     description: "GitHub Token for commenting on the pull request - not required if `disable-pr-comment` is set to `true`"
     required: false
   disable-pr-comment:
-    description: "Disable commenting result on the pull request"
+    description: "Disable commenting the quality gate result on the pull request"
     required: false
     default: "false"
   disable-step-summary:
-    description: "Disable outputting quality gate result to the GitHub Actions step summary"
+    description: "Disable outputting the quality gate result to the GitHub Actions step summary"
     required: false
     default: "false"
   fail-on-quality-gate-error:
