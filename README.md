@@ -12,17 +12,18 @@ Check quality gate result from latest analysis and report result in the pull req
 
 ## Inputs
 
-| parameter                  | description                                                                                             | required | default |
-| -------------------------- | ------------------------------------------------------------------------------------------------------- | -------- | ------- |
-| sonar-project-key          | SonarQube project key                                                                                   | `true`   |         |
-| sonar-host-url             | SonarQube server URL                                                                                    | `true`   |         |
-| sonar-token                | SonarQube token for retrieving quality gate result                                                      | `true`   |         |
-| github-token               | GitHub Token for commenting on the pull request - not required if `disable-pr-comment` is set to `true` | `false`  |         |
-| disable-pr-comment         | Disable commenting the quality gate result on the pull request                                          | `false`  | false   |
-| disable-step-summary       | Disable outputting the quality gate result to the GitHub Actions step summary                           | `false`  | false   |
-| fail-on-quality-gate-error | Set the action status to failed when quality gate status is `ERROR`                                     | `false`  | false   |
-| branch                     | Branch name to retrieve the quality gate result, mutually exclusive with `pull-request` input           | `false`  |         |
-| pull-request               | Pull request id to retrieve the quality gate result, mutually exclusive with `branch` input             | `false`  |         |
+| parameter                  | description                                                                                             | required | default                         |
+| -------------------------- | ------------------------------------------------------------------------------------------------------- | -------- | ------------------------------- |
+| sonar-project-key          | SonarQube project key                                                                                   | `true`   |                                 |
+| sonar-host-url             | SonarQube server URL                                                                                    | `true`   |                                 |
+| sonar-token                | SonarQube token for retrieving quality gate result                                                      | `true`   |                                 |
+| github-token               | GitHub Token for commenting on the pull request - not required if `disable-pr-comment` is set to `true` | `false`  |                                 |
+| pr-comment-title           | Title for the pull request comment                                                                      | `false`  | "SonarQube Quality Gate Result" |
+| disable-pr-comment         | Disable commenting the quality gate result on the pull request                                          | `false`  | false                           |
+| disable-step-summary       | Disable outputting the quality gate result to the GitHub Actions step summary                           | `false`  | false                           |
+| fail-on-quality-gate-error | Set the action status to failed when quality gate status is `ERROR`                                     | `false`  | false                           |
+| branch                     | Branch name to retrieve the quality gate result, mutually exclusive with `pull-request` input           | `false`  |                                 |
+| pull-request               | Pull request id to retrieve the quality gate result, mutually exclusive with `branch` input             | `false`  |                                 |
 
 <!-- action-docs-inputs -->
 
