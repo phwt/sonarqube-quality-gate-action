@@ -1,5 +1,5 @@
 import { Context } from "@actions/github/lib/context";
-import { Condition, QualityGate } from "./models";
+import { Condition, DEFAULT_COMMENT_TITLE, QualityGate } from "./models";
 import {
   formatMetricKey,
   getStatusEmoji,
@@ -68,7 +68,7 @@ export const buildReport = (
     `- Triggered by @${context.actor} on \`${context.eventName}\``,
   ];
 
-  return `### SonarQube Quality Gate Result
+  return `### ${DEFAULT_COMMENT_TITLE}
 ${resultContext.join("\n")}
 
 | Metric | Status | Value | Error Threshold |

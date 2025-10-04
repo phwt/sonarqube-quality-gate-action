@@ -1,3 +1,5 @@
+export const DEFAULT_COMMENT_TITLE = "SonarQube Quality Gate Result";
+
 export interface QualityGate {
   projectStatus: ProjectStatus;
 }

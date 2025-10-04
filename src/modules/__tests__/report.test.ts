@@ -1,6 +1,6 @@
-import { Context } from "@actions/github/lib/context";
-import { QualityGate } from "../models";
 import { buildReport } from "../report";
+import { Context } from "@actions/github/lib/context";
+import { DEFAULT_COMMENT_TITLE, QualityGate } from "../models";
 import timezone_mock from "timezone-mock";
 
 jest.useFakeTimers().setSystemTime(new Date("1970-01-01T08:31+00:00"));
@@ -123,7 +123,7 @@ describe("buildReport", () => {
 
     const report = buildReport(qualityGate, hostURL, projectKey, context);
 
-    const expectedReport = `### SonarQube Quality Gate Result
+    const expectedReport = `### ${DEFAULT_COMMENT_TITLE}
 - **Result**: :exclamation: Error
 - Triggered by @me on \`pull_request\`
 

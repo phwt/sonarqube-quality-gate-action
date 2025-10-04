@@ -1,4 +1,4 @@
-import { ActionInputs, QualityGate } from "./models";
+import { ActionInputs, DEFAULT_COMMENT_TITLE, QualityGate } from "./models";
 import { buildReport } from "./report";
 import { findComment } from "./find-comment/main";
 
@@ -49,7 +49,7 @@ export const commentResult = async ({
     repository: `${context.repo.owner}/${context.repo.repo}`,
     issueNumber: context.issue.number,
     commentAuthor: githubUsername,
-    bodyIncludes: "SonarQube Quality Gate Result",
+    bodyIncludes: DEFAULT_COMMENT_TITLE,
     direction: "first",
   });
 
