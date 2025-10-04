@@ -38,7 +38,7 @@ export const getComparatorSymbol = (comparator: string) => {
  * @returns formatted metric key
  */
 export const formatMetricKey = (metricKey: string) => {
-  const replacedString = metricKey.replaceAll(/_/g, " ");
+  const replacedString = metricKey.replaceAll("_", " ");
   return replacedString.charAt(0).toUpperCase() + replacedString.slice(1);
 };
 
