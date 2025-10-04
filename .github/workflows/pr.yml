@@ -105,7 +105,6 @@ jobs:
 
       - name: Retrieve quality gate result
         uses: ./
-        id: quality-gate-check
         with:
           sonar-host-url: ${{ env.SONAR_HOST_URL }}
           sonar-project-key: ${{ env.SONAR_PROJECT_KEY }}
