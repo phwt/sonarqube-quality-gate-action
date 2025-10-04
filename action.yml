@@ -13,6 +13,10 @@ inputs:
   github-token:
     description: "GitHub Token for commenting on the pull request - not required if `disable-pr-comment` is set to `true`"
     required: false
+  pr-comment-title:
+    description: "Title for the pull request comment"
+    required: false
+    default: "SonarQube Quality Gate Result"
   disable-pr-comment:
     description: "Disable commenting the quality gate result on the pull request"
     required: false

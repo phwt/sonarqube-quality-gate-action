@@ -21,6 +21,7 @@ export const commentResult = async ({
   const octokit = github.getOctokit(inputs.githubToken);
 
   const reportBody = buildReport(
+    inputs,
     result,
     inputs.hostURL,
     inputs.projectKey,
@@ -49,7 +50,7 @@ export const commentResult = async ({
     repository: `${context.repo.owner}/${context.repo.repo}`,
     issueNumber: context.issue.number,
     commentAuthor: githubUsername,
-    bodyIncludes: "SonarQube Quality Gate Result",
+    bodyIncludes: inputs.commentTitle,
     direction: "first",
   });
 

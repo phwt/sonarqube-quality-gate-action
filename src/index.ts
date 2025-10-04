@@ -12,6 +12,7 @@ import { trimTrailingSlash } from "./modules/utils";
       hostURL: trimTrailingSlash(core.getInput("sonar-host-url")),
       projectKey: core.getInput("sonar-project-key"),
       token: core.getInput("sonar-token"),
+      commentTitle: core.getInput("pr-comment-title"),
       commentDisabled: core.getInput("disable-pr-comment") === "true",
       stepSummaryDisabled: core.getInput("disable-step-summary") === "true",
       failOnQualityGateError:

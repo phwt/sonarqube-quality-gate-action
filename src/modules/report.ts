@@ -1,5 +1,3 @@
-import { Context } from "@actions/github/lib/context";
-import { Condition, QualityGate } from "./models";
 import {
   formatMetricKey,
   getStatusEmoji,
@@ -8,6 +6,8 @@ import {
   formatStringNumber,
   getCurrentDateTime,
 } from "./utils";
+import { ActionInputs, Condition, QualityGate } from "./models";
+import { Context } from "@actions/github/lib/context";
 
 const buildRow = (condition: Condition) => {
   const rowValues = [
@@ -47,6 +47,7 @@ const buildReportUrl = (
 };
 
 export const buildReport = (
+  inputs: ActionInputs,
   result: QualityGate,
   hostURL: string,
   projectKey: string,
@@ -68,7 +69,7 @@ export const buildReport = (
     `- Triggered by @${context.actor} on \`${context.eventName}\``,
   ];
 
-  return `### SonarQube Quality Gate Result
+  return `### ${inputs.commentTitle}
 ${resultContext.join("\n")}
 
 | Metric | Status | Value | Error Threshold |

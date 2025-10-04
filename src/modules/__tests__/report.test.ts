@@ -1,6 +1,6 @@
-import { Context } from "@actions/github/lib/context";
-import { QualityGate } from "../models";
 import { buildReport } from "../report";
+import { Context } from "@actions/github/lib/context";
+import { ActionInputs, QualityGate } from "../models";
 import timezone_mock from "timezone-mock";
 
 jest.useFakeTimers().setSystemTime(new Date("1970-01-01T08:31+00:00"));
@@ -112,6 +112,13 @@ const context: Context = {
   },
 };
 
+const inputs: ActionInputs = {
+  hostURL: "https://host-url.com/",
+  projectKey: "project-key",
+  token: "token",
+  commentTitle: "SonarQube Quality Gate Result",
+};
+
 describe("buildReport", () => {
   beforeEach(() => {
     timezone_mock.register("UTC");
@@ -121,7 +128,13 @@ describe("buildReport", () => {
     const hostURL = "https://host-url.com/";
     const projectKey = "project-key";
 
-    const report = buildReport(qualityGate, hostURL, projectKey, context);
+    const report = buildReport(
+      inputs,
+      qualityGate,
+      hostURL,
+      projectKey,
+      context
+    );
 
     const expectedReport = `### SonarQube Quality Gate Result
 - **Result**: :exclamation: Error
@@ -151,6 +164,7 @@ describe("buildReport", () => {
     const branch = "branch-name";
 
     const report = buildReport(
+      inputs,
       qualityGate,
       hostURL,
       projectKey,
@@ -170,6 +184,7 @@ describe("buildReport", () => {
     const pullRequest = "12";
 
     const report = buildReport(
+      inputs,
       qualityGate,
       hostURL,
       projectKey,
