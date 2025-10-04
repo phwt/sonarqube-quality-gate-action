@@ -1,6 +1,6 @@
 import { ActionInputs, QualityGate } from "./models";
 import { buildReport } from "./report";
-import * as fs from "fs";
+import * as fs from "node:fs";
 
 export const addSummary = async ({
   inputs,

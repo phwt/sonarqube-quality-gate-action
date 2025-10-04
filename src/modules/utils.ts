@@ -38,7 +38,7 @@ export const getComparatorSymbol = (comparator: string) => {
  * @returns formatted metric key
  */
 export const formatMetricKey = (metricKey: string) => {
-  const replacedString = metricKey.replace(/_/g, " ");
+  const replacedString = metricKey.replaceAll(/_/g, " ");
   return replacedString.charAt(0).toUpperCase() + replacedString.slice(1);
 };
 
@@ -51,7 +51,7 @@ export const trimTrailingSlash = (value: string) =>
  * @returns formatted number string
  */
 export const formatStringNumber = (value: string) => {
-  const floatValue = parseFloat(value);
+  const floatValue = Number.parseFloat(value);
   const isValueInteger = floatValue % 1 === 0;
   return isValueInteger ? floatValue.toFixed(0) : floatValue.toFixed(2);
 };
