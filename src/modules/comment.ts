@@ -1,4 +1,4 @@
-import { ActionInputs, DEFAULT_COMMENT_TITLE, QualityGate } from "./models";
+import { ActionInputs, QualityGate } from "./models";
 import { buildReport } from "./report";
 import { findComment } from "./find-comment/main";
 
@@ -21,6 +21,7 @@ export const commentResult = async ({
   const octokit = github.getOctokit(inputs.githubToken);
 
   const reportBody = buildReport(
+    inputs,
     result,
     inputs.hostURL,
     inputs.projectKey,
@@ -49,7 +50,7 @@ export const commentResult = async ({
     repository: `${context.repo.owner}/${context.repo.repo}`,
     issueNumber: context.issue.number,
     commentAuthor: githubUsername,
-    bodyIncludes: DEFAULT_COMMENT_TITLE,
+    bodyIncludes: inputs.commentTitle,
     direction: "first",
   });
 

@@ -1,5 +1,3 @@
-export const DEFAULT_COMMENT_TITLE = "SonarQube Quality Gate Result";
-
 export interface QualityGate {
   projectStatus: ProjectStatus;
 }
@@ -32,6 +30,7 @@ export interface ActionInputs {
   projectKey: string;
   token: string;
   commentDisabled?: boolean;
+  commentTitle: string;
   stepSummaryDisabled?: boolean;
   failOnQualityGateError?: boolean;
   branch?: string;
