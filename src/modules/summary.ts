@@ -14,6 +14,7 @@ export const addSummary = async ({
   const { context } = github;
 
   const reportBody = buildReport(
+    inputs,
     result,
     inputs.hostURL,
     inputs.projectKey,
