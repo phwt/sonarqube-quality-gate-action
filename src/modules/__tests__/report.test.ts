@@ -110,6 +110,7 @@ const context: Context = {
     owner: "",
     repo: "",
   },
+  runAttempt: 0
 };
 
 const inputs: ActionInputs = {
