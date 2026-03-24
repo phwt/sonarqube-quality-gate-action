@@ -3,6 +3,7 @@
     "target": "ES2020",
     "lib": ["ES2021.String"],
     "module": "CommonJS",
+    "types": ["node", "jest"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
